@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!--Editted by Zach Shroeder, Donald Franklin-->
+<script type="text/javascript">
+	//** Force redirect if not logged in
+	if (typeof sesKey == 'undefined' || typeof cgiUrl == 'undefined'){
+		window.location = "index.html";
+	}
+</script>
+<div class = "profileBox">
+	<div class = "info-bios">
+		<img src = "img/hub5.png" alt = "Profile Picture" height = "200" width = "200" style = "border:1px solid #fdc163; margin-left:50px ; margin-right: 50px; margin-top: 10px;">
+		<p>
+		<h5>Name:</h5> 
+			<span id="profileName"></span>
+		</br>
+		<h5>Status:</h5>
+			<span id="profileLevel"></span></br>
+			<div id="profileBanned"></div>
+		</br>
+		<h5>Some other Info:</h5>
+			More Text goes here
+		</br>
+		</p>
+	</div>
+</div>
+
+<div class="profileContent">
+	<div id="profilePublicBar" class = "navbar">
+		<div class = "bodynav" id = "score">
+			Score
+		</div>
+		<div class = "bodynav" id = "achievements">
+			Achievements
+		</div>
+		<div class = "bodynav" id = "inbox">
+			Inbox
+		</div>
+		<div class = "bodynav" id = "search">
+			Search
+		</div>
+	</div>
+	<div id="profileUserBar" class = "navbar">
+		<div class = "bodynav" id = "manage">
+			Manage
+		</div>
+		<div class = "bodynav" id = "settings">
+			Settings
+		</div>
+		<div class = "bodynav" id = "upload">
+			Upload
+		</div>
+		<div class = "bodynav" id = "edit">
+			Edit
+		</div>
+	</div>
+
+	<div class = "unhidden" id = "scoresdiv" style = "width: 1038px; float: left;">
+		lots of scores, yey!!!!!!
+	</div>
+
+	<div class = "hidden" id = "achievementsdiv" style = "width: 1038px; float: left;">
+		lots of achievements!!!!!1
+	</div>
+
+	<div class = "hidden" id = "inboxdiv" style = "width: 1038px; float: left;">
+		you've got mail!!!!!
+	</div>
+
+	<div class = "hidden" id = "searchdiv" style = "width: 1038px; float: left;">
+		<div align="center" style = "padding-left: 30%">
+			<div class="search">
+				Search for a User<br />
+				<input id="searchedUser" type="text" size="18" />
+				</br>
+				<button style="float:right" type="button" id="searchNow">Search</button>
+				</br>
+			</div>
+		</div>
+	</div>
+	
+	<div class = "hidden" id = "managediv" style = "width: 1038px; float: left;">
+		Manage div
+		</br>
+	</div>
+	
+	<div class = "hidden" id = "settingsdiv" style = "width: 1038px; float: left;">
+		settings div
+		</br>
+		Change account settings: password, username, etc.
+		</br>
+		Change font color. 
+		</br>
+	</div>
+	
+	<div class = "hidden" id = "uploaddiv" style = "width: 1038px; float: left;">
+		<div align="center">
+			<div class="upload" style = "text-align: center;">
+				<h3 style = "text-align:center;">Upload a Game</h3>
+				</br>
+				Name of your game: <input id = "gameName" type = "text" size = "18" />
+				</br>
+				Paste link here: <input id="gameLink" type="text" size="18" />
+				</br>
+				Type description here:
+				</br>
+				<textarea rows = "4" cols = "50" style = "text-align: left;">
+				</textarea>
+				</br>
+				<button style="float:right" type="button" id="UploadNow">Upload</button>
+				</br>
+			</div>
+		</div>
+	</div>
+	
+	<div class = "hidden" id = "editdiv" style = "width: 1038px; float: left;">
+		edit div
+		</br>
+		Can be more specific once we know what information we will use for each players profile. 
+		</br>
+	</div>
+</div>

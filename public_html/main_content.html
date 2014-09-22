@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--Editted by Tony Heimer, Donald Franklin-->
+
+<script type="text/javascript">
+	//** Force redirect if not logged in
+	if (typeof sesKey == 'undefined' || typeof cgiUrl == 'undefined'){
+		window.location = "index.html";
+	}
+</script>
+
+<table align="center">
+	<tr>
+	<td style="border-bottom: 0px solid #fdc163; border-top: 0px solid #fdc163;">
+	<div style="width:930px;">
+	
+	<div id="topMenu_JoinGame">
+		<div style="position: relative; top: -10px; background-color: #262626; margin: 10px; width:640px; padding: 15px; border-radius:20px; float:left; border: 2px solid #fdc163; height: 450px;overflow-y: scroll;overflow-x:hidden;">
+			<table width="100%">
+				<caption>Games</caption>
+				<tbody id="gameList">
+				</tbody>
+			</table>	
+		</div>
+		<div style="background-color: #262626; margin: 10px 10px 10px 0px; padding: 15px; border-radius:20px; width:196px; border: 2px solid #fdc163; height: 450px;overflow-y: scroll;overflow-x:hidden;">
+			<table width="100%" style="border-collapse: collapse; border-bottom: 1px solid black; ">
+				<caption style="position: static;">Current Games</caption>
+				<tbody id="sessionList">
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+	<div id="topMenu_Wait">
+		<div style="position: relative; top: -10px; background-color: #262626; margin: 10px; width:880px; padding: 15px; border-radius:20px; float:left; border: 2px solid #fdc163; height: 450px;">
+			<div>Name:&nbsp;&nbsp;
+				<span id="GameName"></span>
+			</div>
+			<div id="playerCount">Players:&nbsp;&nbsp;
+				<span id="totalPlayers">3</span>&nbsp;/&nbsp;<span id="maxPlayers">6</span>
+			</div>
+			<div>Players:&nbsp;&nbsp;
+				<div id="GameName"></span>
+			</div>
+			<input type="button" value="Quit" onclick="onGameQuit()">
+			<input type="button" value="Ready" onclick="onGameReady()">
+		</div>
+	</div>
+
+   	
+   	<div style="background-color: #262626; margin: 0px 10px 10px 10px; padding: 15px; border-radius:20px; width:880px; border: 2px solid #fdc163; height: 230px;">
+   		<div id="msgBox" >
+   		</div>
+		<input type="text" id="txtAddChat" style="width:90%"> <button id="btnAddChat" type="button">Post</button> 
+   	</div>
+   	
+   	</div>
+   	</td>
+   	</tr>
+</table>

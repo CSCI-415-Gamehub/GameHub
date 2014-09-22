@@ -1,0 +1,22 @@
+body{font-family:Lato; background-color: black; color: white;padding:0px; margin: 0px;vertical-align:top;overflow-y:scroll;}
+a{color: #fdc163;}
+table{padding: 0px;border-collapse: collapse;}
+.header{font-size: 12pt;  font-weight: 700; border-bottom: 2px solid #fdc163; position:fixed;top:0;left:0;width:100%;background-color:#262626;}
+.login{background-color: #262626; padding: 35px 90px 30px 90px;text-align:left;border:2px solid #fdc163;border-radius:20px;auto; float:left;}
+.margin{float:left;width:32%;}
+.hidden {display:none;}
+.unhidden {display:block;}
+.reg{background-color: #262626; padding: 35px 90px 30px 90px;text-align:left;border:2px solid #fdc163;border-radius:20px;auto; float:left;}
+.login{background-color: #262626; padding: 35px 90px 30px 90px;text-align:left;border:2px solid #fdc163;border-radius:20px;auto; float:left;}
+.header{font-size: 12pt;  font-weight: 700; border-bottom: 2px solid #fdc163; position:fixed;top:0;left:0;width:100%;background-color:#262626;}
+.nav{height: 40px; float:right; padding: 18px 10px 0px 10px; color:#626262; width: auto;}
+.nav:hover{cursor: pointer; color:#f79700;}
+.td{border-bottom: 1px solid #fdc163; border-top: 1px solid #fdc163;}
+.myMenu{color:#626262; position:absolute; right: 15px; visibility:hidden; margin:0; padding:0; width: 75px; background-color:#262626; text-align: center;padding: 5px;} 
+.myMenu li { display:inline; float:none; }  
+.myMenu li a:hover {color:#f79700; }
+.spanLink { }
+.spanLink:hover{cursor:pointer;text-decoration:underline;}
+#innerBody{margin-top:56px;}
+#msgBox{height: 205px; overflow-y: scroll;}
+#loginBody{margin-top:40px;}
