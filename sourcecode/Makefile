@@ -3,7 +3,7 @@ DIR = ../public_html/cgi-bin/
 TAGS = -lcrypto++ -lpthread
 
 # Build All
-all: common.o sqltdb.o randStrHash.o login.cgi logout.cgi register.cgi chatsend.cgi chatupdate.cgi profile.cgi play.cgi
+all: common.o sqltdb.o randStrHash.o login.cgi logout.cgi register.cgi main.cgi chatsend.cgi chatupdate.cgi profile.cgi play.cgi
 
 login.cgi: login.cpp sqltdb.o randStrHash.o common.o
 	$(CC) -std=c++11 -o $(DIR)login.cgi login.cpp sqltdb.o randStrHash.o common.o -lsqlite3 $(TAGS)
@@ -13,6 +13,9 @@ logout.cgi: logout.cpp sqltdb.o common.o
 	
 register.cgi: register.cpp sqltdb.o randStrHash.o common.o
 	$(CC) -std=c++11 -o $(DIR)register.cgi register.cpp sqltdb.o randStrHash.o common.o -lsqlite3 $(TAGS)
+
+main.cgi: main.cpp sqltdb.o common.o
+	$(CC) -std=c++11 -o $(DIR)main.cgi main.cpp sqltdb.o common.o -lsqlite3
 	
 chatsend.cgi: chatsend.cpp sqltdb.o common.o
 	$(CC) -std=c++11 -o $(DIR)chatsend.cgi chatsend.cpp sqltdb.o common.o -lsqlite3
