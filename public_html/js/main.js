@@ -1,6 +1,6 @@
 //** Editted by Donald Franklin
 
-//****** GLOBAL VARIABLES ******//
+//********** GLOBAL VARIABLES **********//
 var cgiUrl = "cgi-bin/";
 var sesKey = "";
 var UserID = 0,
@@ -15,6 +15,39 @@ var lastUpdate = Math.floor(timeObj.getTime()/1000)-10;
 var updateWait = 5000;
 var pageTarget = "",
 	nextURL = "";
+	
+//********** SERVER COMMANDS **********//
+//** These are commands the client sends and the server responds with
+var MAIN_GAMELIST = "GAMES",				//Get list of games +(optional: sort by)
+	MAIN_SESSIONLIST = "SESSIONS",			//Get list of sessions +(game id)
+	MAIN_POSTGAME = "POST", 				//Start game session +(game id, session name?, password, number of players)
+	MAIN_GAMEUPDATE = "UPDATE",				//Get status of game session +(game session id)
+	MAIN_CHANGEUSER = "CHANGEUSER",			//Poster sets position +(new user position)
+	MAIN_STARTGAME = "START",				//Sent when everything is ready so the server knows to delete the session
+	MAIN_JOIN = "JOIN";						//Join game session +(game id)
+	
+var PROFILE_MYPROFILE = "SHOWME",			//Get info for user's profile
+	PROFILE_OTHERPROFILE = "SHOWOTHER",		//Get info for someone elses profile +(profile user id)
+	PROFILE_COLOR = "COLOR",				//Set the user's profile color +(string of length 6)
+	PROFILE_MYGAMES = "MYGAMES",			//Get list of users games
+	PROFILE_NEWREG = "NEWREG";				//Randomizes user's registration code
+	
+var ADMIN_GAMES = "GAMES",					//Get list of games +(optional: sort by, optional:name)
+	ADMIN_USERS = "USERS",					//Get list of users +(optional: name)
+	ADMIN_TIMEOUT = "TIMEOUT",				//Set new global timeout +(new value)
+	ADMIN_USERLEVEL = "USERLEVEL",			//Set user's level +(user id, new userlevel)
+	ADMIN_REGLIST = "REGLIST",				//Get list of registration requests
+	ADMIN_BANLIST = "BANLIST",				//Get list of banned or muted users
+	ADMIN_BANUSER = "SETBAN",				//Set user ban level +(user id)
+	ADMIN_MUTEUSER = "SETMUTE",				//Set user mute level +(user id)
+	ADMIN_GAMEDELETE = "GAMEDELETE",		//Remove users game +(game id)
+	ADMIN_USERDELETE = "USERDELETE";		//Remove user's account +(user id)
+
+//** Commands that the client receives sometimes instead of the above
+var OTHER_TIMEOUT = "TIMEOUT",				//If the user's session timed out this is the only command they get
+	OTHER_ERROR = "ERROR";					//This is always the first thing returned if there's an error
+	
+	
 
 //***************************************************//
 //*					UTILITY METHODS					*//
