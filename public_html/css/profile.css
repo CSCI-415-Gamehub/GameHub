@@ -117,3 +117,26 @@ a
 	border-radius:20px;
 	margin-top:40px;
 }
+
+.ibox
+{
+	background-color: #262626;
+	padding: 20px 15px 20px 15px;
+	text-align:left;
+	border:2px solid #fdc163;
+	border-radius:20px;
+	auto;
+	float:left;
+}
+
+.testmessage
+{
+	background-color: #808080;
+	padding: 2px 2px 2px 2px;
+	text-align: left;
+	border:1px solid #fdc163;
+	auto;
+	float:left;
+	color: black;
+	width: 100%;
+}
