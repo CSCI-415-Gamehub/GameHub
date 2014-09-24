@@ -14,7 +14,9 @@ const int pd_SKEY = 0,
 		  pd_COMMAND = 1;
 const string COMMAND_MYPROFILE = "SHOWME",
 			 COMMAND_OTHERPROFILE = "SHOWOTHER",
-			 COMMAND_COLOR = "COLOR";
+			 COMMAND_COLOR = "COLOR",
+			 COMMAND_MYGAMES = "MYGAMES",
+			 COMMAND_NEWREG = "NEWREG";
 			 
 //** Other fields
 const int pd_PROFID = 2,
@@ -114,13 +116,14 @@ int main(int argc, char* argv[])
 		tmpFname = db[0][5];
 		tmpLname = db[0][6];
 		
-		cout << "LOAD" << DLM << tmpName <<
-						DLM << tmpLevel <<
-						DLM << tmpBan <<
-						DLM << tmpMute <<
-						DLM << tmpRegCode << 
-						DLM << tmpFname <<
-						DLM << tmpLname << endl;
+		//** Return command and data signalling success
+		cout << userData[pd_COMMAND] << DLM << tmpName <<
+										DLM << tmpLevel <<
+										DLM << tmpBan <<
+										DLM << tmpMute <<
+										DLM << tmpRegCode << 
+										DLM << tmpFname <<
+										DLM << tmpLname << endl;
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_COLOR){
 		//** Error checking (force user to send skey, command, and color)
@@ -134,6 +137,22 @@ int main(int argc, char* argv[])
 			cout << "ERROR" << DLM << "Invalid command" << endl;
 			return 0;
 		}
+		
+		//** Return command signalling success
+		cout << COMMAND_COLOR << endl;
+		return 0;
+	} else if (userData[pd_COMMAND] == COMMAND_MYGAMES){
+		//** TODO: Check if userlevel >= 3
+		
+		//** Return command and data signalling success
+		cout << COMMAND_MYGAMES << endl;
+		return 0;
+	} else if (userData[pd_COMMAND] == COMMAND_NEWREG){
+		//** TODO: Check if userlevel >= 3
+		
+		//** Return command and data signalling success
+		cout << COMMAND_NEWREG << endl;
+		return 0;
 	}
 	
 	//** Default to error
