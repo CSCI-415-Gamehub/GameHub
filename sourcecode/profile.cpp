@@ -7,6 +7,7 @@
 #include "libs/common.hpp"
 #include "libs/sqltdb.hpp"
 #include "libs/query.hpp"
+#include "libs/randStrHash.hpp"
 
 using namespace std;
 
@@ -36,7 +37,8 @@ int main(int argc, char* argv[])
 		   tmpRegCode,
 		   tmpFname,
 		   tmpLname,
-		   userID;
+		   userID,
+		   skey;
 	int dbResult = 0;
 	time_t currentTime = time(0);
 	long int profileID = 0,
@@ -180,10 +182,20 @@ int main(int argc, char* argv[])
 		cout << COMMAND_MYGAMES << endl;
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_NEWREG){
-		//** TODO: Check if userlevel >= 3
+		//** Randomize used registration key
+		randStr(skey, 20);
+		queryStr = "UPDATE HubUsers SET RegistrationCode = ? WHERE UserID = ? LIMIT 1";
+		db.prepare(queryStr);
+		db.bind(1, skey);
+		db.bind(2, userID);
+		dbResult = db.runPrepared();
+		if (dbResult != DB_SUCCESS) {
+			cout << "ERROR" << DLM << "Failed to change registration key [" << dbResult << "] " << " \"" << queryStr << "\"" << endl;
+			return 0;
+		}
 		
 		//** Return command and data signalling success
-		cout << COMMAND_NEWREG << endl;
+		cout << COMMAND_NEWREG << DLM << skey << endl;
 		return 0;
 	}
 	
