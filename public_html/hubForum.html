@@ -40,14 +40,35 @@
     </script>
    <script type="text/javascript">
    /*******************************************************
-	Helper functions  #a1a1a1   #1c2f2f
-	********************************************************/
-
+   Helper functions  #a1a1a1   #1c2f2f
+   ********************************************************/
+   /****************************** 
+   Event Handlers
+   ******************************/
+	
+   function showGame()
+   {
+   document.getElementById("gameInput").value = "";
+   document.getElementById("games").className = "unhidden";
+   document.getElementById("hub").className = "hidden";
+   document.getElementById("misc").className = "hidden";
+   }
    /************************************************************************
    window.onload: Used to connect events to event handlers
    *************************************************************************/   
     
-
+   window.onload = function()
+   {
+   //*** ONCLICK FOR SWITCHING SCREENS
+   document.getElementById("gamesTab").onclick = showGame;
+   document.getElementById("hubTab").onclick = showHub;
+   document.getElementById("miscTab").onclick = showMisc;
+   
+   //*** ONCLICK FOR CONTACTING SERVER
+   document.getElementById("gamePost").onclick = postGame;
+   document.getElementById("hubPost").onclick = postHub;
+   document.getElementById("miscPost").onclick = postMisc;
+   }
     
    /************************************************************************
    End of JavaScript - Body of HTML Document Follows
