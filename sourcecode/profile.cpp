@@ -26,7 +26,10 @@ int main(int argc, char* argv[])
 		   queryStr,
 		   sendStr = "",
 		   tmpName,
-		   tmpID;
+		   tmpLevel,
+		   tmpID,
+		   userID,
+		   userQuery = "SELECT Username, UserLevel FROM HubUsers WHERE UserID = ? LIMIT 1";
 	int dbResult = 0;
 	time_t currentTime = time(0);
 	long int profileID = 0;
@@ -44,6 +47,9 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 	
+	//** Connect to DB
+	db.open(DIR_DB);
+	
 	//** Confirm logged in
 	dbResult = checkSession(db, userData[pd_SKEY].c_str());
 	if (dbResult != DB_SUCCESS){
@@ -54,19 +60,23 @@ int main(int argc, char* argv[])
 		cout << "ERROR" << DLM << "Not logged in.";
 		return 0;
 	}
+	userID = db[0][0];
 	
 	//** Get profile action
-	if (userData[pd_COMMAND] == COMMAND_MYPROFILE){
+	if (userData[pd_COMMAND] == COMMAND_MYPROFILE || userData[pd_COMMAND] == COMMAND_OTHERPROFILE){
 		//** Load profile of this user
-		profileID = strtol(userData[pd_PROFID].c_str(), NULL, 10);
+		if (userData[pd_COMMAND] == COMMAND_OTHERPROFILE){
+			profileID = strtol(userData[pd_PROFID].c_str(), NULL, 10);
+		} else {
+			profileID = strtol(userID.c_str(), NULL, 10);
+		}
 		
-		queryStr = "SELECT Username FROM HubUsers WHERE UserID = ? LIMIT 1";
-		db.prepare(queryStr);
+		db.prepare(userQuery);
 		db.bind(1, profileID);
 		
 		//** Run command and send output
 		if (db.runPrepared() != DB_SUCCESS) {
-			cout << "ERROR" << DLM << "Invalid query \"" << queryStr << "\"" << endl;
+			cout << "ERROR" << DLM << "Invalid query \"" << userQuery << "\"" << endl;
 			return 0;
 		}
 		
@@ -77,38 +87,9 @@ int main(int argc, char* argv[])
 		}
 		
 		tmpName = db[0][0];
+		tmpLevel = db[0][1];
 		
-		cout << "LOAD" << DLM << tmpName << endl;
-		return 0;
-	} else if (userData[pd_COMMAND] == COMMAND_OTHERPROFILE){
-		//** Error checking (force user to send skey, command, and userid)
-		if (userData.size() < 3){
-			cout << "ERROR" << DLM << "Invalid command" << endl;
-			return 0;
-		}
-		
-		//** Load profile of other user
-		profileID = strtol(userData[pd_PROFID].c_str(), NULL, 10);
-		
-		queryStr = "SELECT Username FROM HubUsers WHERE UserID = ? LIMIT 1";
-		db.prepare(queryStr);
-		db.bind(1, profileID);
-		
-		//** Run command and send output
-		if (db.runPrepared() != DB_SUCCESS) {
-			cout << "ERROR" << DLM << "Invalid query \"" << queryStr << "\"" << endl;
-			return 0;
-		}
-		
-		//** Check count
-		if (db.numRows() < 1){
-			cout << "ERROR" << DLM << "User does not exist." << endl;
-			return 0;
-		}
-		
-		tmpName = db[0][0];
-		
-		cout << "LOAD" << DLM << tmpName << endl;
+		cout << "LOAD" << DLM << tmpName << DLM << tmpLevel << endl;
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_COLOR){
 		//** Error checking (force user to send skey, command, and userid)
