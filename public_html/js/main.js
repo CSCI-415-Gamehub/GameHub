@@ -75,7 +75,13 @@ function splitData(str){
 	}
 	
 	//** Push any remaining characters onto the array
-	outputArr.push(str.substring(startPos));
+	tmpStr = str.slice(-2);
+	if (tmpStr == "\n"){
+		//** Fix random bug that pops up sometimes
+		outputArr.push(str.substring(startPos));
+	} else {
+		outputArr.push(str.substring(0, str.length-2).substring(startPos));
+	}
 	
 	//** Return array
 	return outputArr;
