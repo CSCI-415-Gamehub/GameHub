@@ -162,8 +162,8 @@ if (dbResult != DB_SUCCESS) {
 randStr(skey, 20);
 query = "UPDATE HubUsers SET RegistrationCode = ? WHERE RegistrationCode = ? LIMIT 1";
 db.prepare(query);
-db.bind(1, postData[pd_REGCODE].c_str());
-db.bind(2, skey);
+db.bind(1, skey);
+db.bind(2, postData[pd_REGCODE].c_str());
 dbResult = db.runPrepared();
 if (dbResult != DB_SUCCESS) {
 	cout << "ERROR" << DLM << "Failed to change registration key [" << dbResult << "] " << " \"" << query << "\"" << endl;
