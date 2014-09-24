@@ -10,6 +10,7 @@ CGI script to handle a login
 #include <fstream>
 
 #include "libs/common.hpp"
+#include "libs/query.hpp"
 #include "libs/sqltdb.hpp"
 #include "libs/dateTime.hpp"
 
@@ -50,7 +51,7 @@ tokenizeStr(postText, "||", postData);
 db.open(DIR_DB);
 
 //** Confirm logged in
-dbResult = checkSession(db, postData[pd_SKEY].c_str()) != DB_SUCCESS;
+dbResult = checkSession(db, postData[pd_SKEY].c_str());
 if (dbResult != DB_SUCCESS){
 	cout << "ERROR" << DLM << "Failed to check session id [" << dbResult << "]" << endl;
 	return 0;

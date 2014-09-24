@@ -65,8 +65,6 @@ if (postText == "" || postText == DLM){
 
 //** Split input into vector
 tokenizeStr(postText, DLM, postData);
-//** 0 = username
-//** 1 = password
 
 //** Invalid data length
 if (postData.size() < 2){
