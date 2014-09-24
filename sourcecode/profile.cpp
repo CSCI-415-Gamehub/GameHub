@@ -39,7 +39,8 @@ int main(int argc, char* argv[])
 		   userID;
 	int dbResult = 0;
 	time_t currentTime = time(0);
-	long int profileID = 0;
+	long int profileID = 0,
+			 userLevel = 0;
 	sqltWrap db;
 	vector <string> userData;
 	
@@ -108,9 +109,9 @@ int main(int argc, char* argv[])
 		
 		//** Only return a registration code if the user level is high enough
 		if (tmpLevel != "1" && tmpLevel != "0"){
-			tmpRegCode = "";
-		} else {
 			tmpRegCode = db[0][4];
+		} else {
+			tmpRegCode = "";
 		}
 		
 		tmpFname = db[0][5];
@@ -138,11 +139,42 @@ int main(int argc, char* argv[])
 			return 0;
 		}
 		
+		//** TODO Confirm color is 6 numbers
+		
+		//** Update user's chat color
+		queryStr = "UPDATE HubUsers SET Color = ? WHERE UserID = ?";
+		db.prepare(queryStr);
+		db.bind(1, userData[pc_COLOR]);
+		db.bind(2, userID);
+		dbResult = db.runPrepared();
+		
+		if (dbResult != DB_SUCCESS) {
+			cout << "ERROR||Failed to run prepared query [" << dbResult << "]" << endl;
+			return 0;
+		}
+		
 		//** Return command signalling success
-		cout << COMMAND_COLOR << endl;
+		cout << COMMAND_COLOR << DLM << userData[pc_COLOR] << endl;
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_MYGAMES){
-		//** TODO: Check if userlevel >= 3
+		//** Retrieve user level
+		queryStr = "SELECT UserLevel FROM HubUsers WHERE UserID = ?";
+		db.prepare(queryStr);
+		db.bind(1, userID);
+		dbResult = db.runPrepared();
+		if (dbResult != DB_SUCCESS) {
+			cout << "ERROR||Failed to run prepared query [" << dbResult << "]" << endl;
+			return 0;
+		}
+		
+		//** Confirm user level is high enough to post games
+		userLevel = atol(db[0][0].getData().c_str());
+		if (userLevel < 3){
+			cout << "ERROR||Invalid user level" << endl;
+			return 0;
+		}
+		
+		queryStr = "SELECT * FROM Games WHERE ";
 		
 		//** Return command and data signalling success
 		cout << COMMAND_MYGAMES << endl;
