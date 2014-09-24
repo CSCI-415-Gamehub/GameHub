@@ -20,3 +20,4 @@ table{padding: 0px;border-collapse: collapse;}
 #innerBody{margin-top:56px;}
 #msgBox{height: 205px; overflow-y: scroll;}
 #loginBody{margin-top:40px;}
+.standard	{background-color: #262626; padding: 15px; border-radius:20px; border: 2px solid #fdc163;}
