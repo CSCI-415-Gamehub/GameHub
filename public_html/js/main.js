@@ -128,6 +128,10 @@ function onHeaderLoad(){
 	if (elemExists("#btnProfile")){
 		$("#btnProfile").click(onProfileClick);
 	}
+	if (elemExists("#btnDeveloper") && UserLevel >= 100){
+		$("#btnDeveloper").click(onDeveloperClick);
+		$("#btnDeveloper").show();
+	}
 	if (elemExists("#btnLogout")){
 		$("#btnLogout").click(onLogoutClick);
 	}
@@ -371,6 +375,17 @@ function onProfileClick(){
 	$("#innerBody").fadeOut(600, function(){$("#innerBody").load("profile.html", "", function(){
 		onProfileLoad();
 	})});
+}
+function onDeveloperClick(){
+	$("#innerBody").fadeOut(600, function(){
+		$.ajax("cgi-bin/devconsole.cgi", {data: sesKey + DLM + "DISPLAY", type: "POST", success: function(data){
+			$(innerBody).html(data);
+			$("#innerBody").fadeIn(400);
+		}, error: function(data){
+			$(innerBody).html(data);
+			$("#innerBody").fadeIn(400);
+		}})
+	});
 }
 function onProfileLoad(data){
 	//** setProfileButtons is located in profile.js

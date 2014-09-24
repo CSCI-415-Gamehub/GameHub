@@ -44,6 +44,9 @@ int main(int argc, char* argv[])
 
 	cout << "Content-Type: text/plain\n\n";
 	
+	//** Connect to DB
+	db.open(DIR_DB);
+	
 	//** Confirm logged in
 	dbResult = checkSession(db, postData[pd_SKEY].c_str()) != DB_SUCCESS;
 	if (dbResult != DB_SUCCESS){
