@@ -27,6 +27,7 @@ CREATE TABLE Games
 GameID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 GameName Varchar(30) COLLATE NOCASE,
 GameAddress Varchar(30),
+PosterID Integer,
 MinUsers Integer,
 MaxUsers Integer,
 URL Varchar(2083),
