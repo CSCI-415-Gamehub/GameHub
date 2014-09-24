@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 	}
 	
 	//** Confirm logged in
-	dbResult = checkSession(db, userData[pd_SKEY].c_str()) != DB_SUCCESS;
+	dbResult = checkSession(db, userData[pd_SKEY].c_str());
 	if (dbResult != DB_SUCCESS){
 		cout << "ERROR" << DLM << "Failed to check session id [" << dbResult << "]" << endl;
 		return 0;
