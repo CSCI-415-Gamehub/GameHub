@@ -74,7 +74,14 @@ void replaceInStr (string &str, const string inStr, const string repStr) {
 string retrievePost(){
 	char Buffer[1024]={0};
 	char* data = getenv("CONTENT_LENGTH");
-    int InputLength = atoi( data ); 
+    int InputLength;
+	
+	//** Null error checking
+	if (data == NULL) return "";
+	
+	//** Get size and check content
+	InputLength = atoi( data );
+	if (InputLength < 1) return "";
 
 	if (InputLength > sizeof(Buffer)-1){ InputLength = sizeof(Buffer)-1; }
     fread( Buffer, InputLength, 1, stdin );
