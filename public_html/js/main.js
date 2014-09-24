@@ -30,6 +30,7 @@ var PROFILE_MYPROFILE = "SHOWME",			//Get info for user's profile
 	PROFILE_OTHERPROFILE = "SHOWOTHER",		//Get info for someone elses profile +(profile user id)
 	PROFILE_COLOR = "COLOR",				//Set the user's profile color +(string of length 6)
 	PROFILE_MYGAMES = "MYGAMES",			//Get list of users games
+	PROFILE_ADDGAME = "ADDGAME",			//Add a new game +(GameName, Description, URL, MinPlayers, MaxPlayers)
 	PROFILE_NEWREG = "NEWREG";				//Randomizes user's registration code
 	
 var ADMIN_GAMES = "GAMES",					//Get list of games +(optional: sort by, optional:name)
