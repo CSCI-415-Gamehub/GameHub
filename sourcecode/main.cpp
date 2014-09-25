@@ -27,22 +27,16 @@ int main(int argc, char* argv[])
 	int dbResult = 0;
 	sqltWrap db;
 	
+	cout << "Content-Type: text/plain\n\n";
+	
 	//** No data sent
 	if (postText == "" || postText == DLM){
-		cout << "ERROR" << DLM << "No message";
-		return 0;
-	}
-	
-	//** Check count
-	if (db.numRows() < 1){
-		cout << "ERROR" << DLM << "User does not exist." << endl;
+		cout << "ERROR" << DLM << "No message" << endl;
 		return 0;
 	}
 
 	//** Split input into vector
 	tokenizeStr(postText, DLM, postData);
-
-	cout << "Content-Type: text/plain\n\n";
 	
 	//** Connect to DB
 	db.open(DIR_DB);
@@ -58,26 +52,42 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 	
-	//** Fix lack of
-	if (db.numRows() < 2){
-		cout << "ERROR" << DLM << "User does not exist." << endl;
-		return 0;
-	}
-	
 	//** Handle commands
 	if (postData[pd_COMMAND] == COMMAND_GAMELIST){
 		//** Send list of games
+		
+		queryStr = "SELECT ";
+		
+		cout << COMMAND_GAMELIST << endl;
+		return 0;
 	} else if (postData[pd_COMMAND] == COMMAND_SESSIONLIST){
 		//** Send list of sessions for a game
-	} else if (postData[pd_COMMAND] == COMMAND_STARTGAME){
+		cout << COMMAND_SESSIONLIST << endl;
+		return 0;
+	} else if (postData[pd_COMMAND] == COMMAND_POSTGAME){
 		//** Initialize a game session
+		cout << COMMAND_POSTGAME << endl;
+		return 0;
 	} else if (postData[pd_COMMAND] == COMMAND_GAMEUPDATE){
 		//** Send list of players in a game and ok message if all slots are taken
+		cout << COMMAND_GAMEUPDATE << endl;
+		return 0;
 	} else if (postData[pd_COMMAND] == COMMAND_CHANGEUSER){
 		//** Change slot of player in game
+		cout << COMMAND_CHANGEUSER << endl;
+		return 0;
+	} else if (postData[pd_COMMAND] == COMMAND_STARTGAME){
+		//** Initialize a game session
+		cout << COMMAND_STARTGAME << endl;
+		return 0;
+	} else if (postData[pd_COMMAND] == COMMAND_JOIN){
+		//** Initialize a game session
+		cout << COMMAND_JOIN << endl;
+		return 0;
 	} else {
 		cout << "ERROR" << DLM << "Invalid command." << endl;
 	}
 	
+	cout << "success" << endl;
 	return 0;
 }
