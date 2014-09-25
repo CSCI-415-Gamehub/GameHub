@@ -131,6 +131,9 @@ function onHeaderLoad(){
 	if (elemExists("#btnProfile")){
 		$("#btnProfile").click(onProfileClick);
 	}
+	if (elemExists("#btnAdmin")){
+		$("#btnAdmin").click(onAdminClick);
+	}
 	if (elemExists("#btnDeveloper") && UserLevel >= 100){
 		$("#btnDeveloper").click(onDeveloperClick);
 		$("#btnDeveloper").show();
@@ -382,6 +385,15 @@ function onMainClick(){
 	$("#innerBody").fadeOut(600, function(){$("#innerBody").load("main_content.html", "", function(){
 		$("#innerBody").fadeIn(400, function(){
 			onMainLoad();
+		})
+	})});
+}
+function onAdminLoad(){
+}
+function onAdminClick(){
+	$("#innerBody").fadeOut(600, function(){$("#innerBody").load("admin.html", "", function(){
+		$("#innerBody").fadeIn(400, function(){
+			onADminLoad();
 		})
 	})});
 }
