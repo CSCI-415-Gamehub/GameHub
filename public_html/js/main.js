@@ -32,7 +32,9 @@ var PROFILE_MYPROFILE = "SHOWME",			//Get info for user's profile
 	PROFILE_COLOR = "COLOR",				//Set the user's profile color +(string of length 6)
 	PROFILE_MYGAMES = "MYGAMES",			//Get list of users games
 	PROFILE_ADDGAME = "ADDGAME",			//Add a new game +(GameName, Description, URL, MinPlayers, MaxPlayers)
-	PROFILE_NEWREG = "NEWREG";				//Randomizes user's registration code
+	PROFILE_NEWREG = "NEWREG",				//Randomizes user's registration code
+	PROFILE_NEWPASS = "NEWPASS",			//Change user's password +(OldPassword, NewPassword)
+	PROFILE_NEWSTATUS = "NEWSTATS";			//Change user's stats +(FirstName, LastName, Email)
 	
 var ADMIN_GAMES = "GAMES",					//Get list of games +(optional: sort by, optional:name)
 	ADMIN_USERS = "USERS",					//Get list of users +(optional: name)

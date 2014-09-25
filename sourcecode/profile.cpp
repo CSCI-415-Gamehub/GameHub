@@ -24,7 +24,9 @@ const string COMMAND_MYPROFILE = "SHOWME",
 			 COMMAND_COLOR = "COLOR",
 			 COMMAND_MYGAMES = "MYGAMES",
 			 COMMAND_ADDGAME = "ADDGAME",
-			 COMMAND_NEWREG = "NEWREG";
+			 COMMAND_NEWREG = "NEWREG",
+			 COMMAND_NEWPASS = "NEWPASS",
+			 COMMAND_NEWSTATS = "NEWSTATS";
 			 
 //** Other fields
 const int pd_PROFID = 2,
@@ -277,6 +279,14 @@ int main(int argc, char* argv[])
 	} else if (userData[pd_COMMAND] == COMMAND_ADDGAME){
 		//** Add game to Games table under user's id
 		profileCommandAddGame(db, userID, userData);
+		return 0;
+	} else if (userData[pd_COMMAND] == COMMAND_NEWPASS){
+		//** Change user's password
+		cout << COMMAND_NEWPASS << endl;
+		return 0;
+	} else if (userData[pd_COMMAND] == COMMAND_NEWSTATS){
+		//** Update users basic info
+		cout << COMMAND_NEWSTATS << endl;
 		return 0;
 	}
 	
