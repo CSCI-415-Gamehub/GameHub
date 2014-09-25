@@ -434,7 +434,13 @@ function onProfileLoad(data){
 	$("#profileBanned").html(banStatus);
 	
 	//** Show profile
-	$("#innerBody").fadeIn(400);
+	$.ajax("cgi-bin/profile.cgi", {data: sesKey + DLM + "SHOWME", type: "POST", success: function(data){
+			$(innerBody).html(data);
+			$("#innerBody").fadeIn(400);
+		}, error: function(data){
+			$(innerBody).html(data);
+			$("#innerBody").fadeIn(400);
+		}});
 }
 
 
