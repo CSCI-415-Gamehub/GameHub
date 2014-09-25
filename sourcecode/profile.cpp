@@ -30,6 +30,130 @@ const string COMMAND_MYPROFILE = "SHOWME",
 const int pd_PROFID = 2,
 		  pc_COLOR = 2;
 
+int profileCommandColor(sqltWrap &db, string &userID, vector<string> &userData){
+	string queryStr = "UPDATE HubUsers SET Color = ? WHERE UserID = ?";
+	int dbResult;
+	
+	//** Error checking (force user to send skey, command, and color)
+	if (userData.size() < 3){
+		cout << "ERROR" << DLM << "Invalid command" << endl;
+		return 0;
+	}
+	
+	//** Force color size to be exactly 6 characters
+	if (userData[pc_COLOR].size() < 6){
+		cout << "ERROR" << DLM << "Invalid command" << endl;
+		return 0;
+	}
+	
+	//** TODO Confirm color is 6 numbers
+	
+	//** Update user's chat color
+	db.prepare(queryStr);
+	db.bind(1, userData[pc_COLOR]);
+	db.bind(2, userID);
+	dbResult = db.runPrepared();
+	
+	if (dbResult != DB_SUCCESS) {
+		cout << "ERROR||Failed to run prepared query [" << dbResult << "]" << endl;
+		return 0;
+	}
+	
+	//** Return command signalling success
+	cout << COMMAND_COLOR << DLM << userData[pc_COLOR] << endl;
+	return 0;
+}
+
+int profileCommandMyGames(sqltWrap &db, string &userID, vector<string> &userData){
+	string queryStr = "SELECT UserLevel FROM HubUsers WHERE UserID = ?";
+	int dbResult,
+		userLevel;
+	
+	//** Retrieve user level
+	db.prepare(queryStr);
+	db.bind(1, userID);
+	dbResult = db.runPrepared();
+	if (dbResult != DB_SUCCESS) {
+		cout << "ERROR||Failed to run prepared query [" << dbResult << "]" << endl;
+		return 0;
+	}
+	
+	//** Confirm user level is high enough to post games
+	userLevel = atol(db[0][0].getData().c_str());
+	if (userLevel < 3){
+		cout << "ERROR||Invalid user level" << endl;
+		return 0;
+	}
+	
+	//** Get list of games
+	queryStr = "SELECT GameID, GameName, URL, Description FROM Games WHERE PosterID = ?";
+	db.prepare(queryStr);
+	db.bind(1, userID);
+	dbResult = db.runPrepared();
+	
+	//** Return command and data signalling success
+	cout << COMMAND_MYGAMES << DLM << db.numRows();
+	
+	//** Output list of games
+	for (int i=0;i<db.numRows();i++){
+		cout << DLM << db[i][0]; //** GameID
+		cout << DLM << db[i][1]; //** GameName
+		cout << DLM << db[i][2]; //** URL
+		cout << DLM << db[i][3]; //** Description
+	}
+	cout << endl;
+	return 0;
+}
+
+int profileCommandAddGame(sqltWrap &db, string &userID, vector<string> &userData){
+	string queryStr = "SELECT UserLevel FROM HubUsers WHERE UserID = ?";
+	int dbResult,
+		userLevel;
+	
+	//** Retrieve user level
+	db.prepare(queryStr);
+	db.bind(1, userID);
+	dbResult = db.runPrepared();
+	if (dbResult != DB_SUCCESS) {
+		cout << "ERROR||Failed to run prepared query [" << dbResult << "]" << endl;
+		return 0;
+	}
+	
+	//** Confirm user level is high enough to post games
+	userLevel = atol(db[0][0].getData().c_str());
+	if (userLevel < 3){
+		cout << "ERROR||Invalid user level" << endl;
+		return 0;
+	}
+	
+	if (userData.size() < 7){
+		cout << "ERROR" << DLM << "Invalid command" << endl;
+		return 0;
+	}
+	
+	//** Todo error checking on games
+	queryStr = "INSERT INTO Games (PosterID, GameName, MinUsers, MaxUsers, URL, Description) VALUES (?, ?, ?, ?, ?, ?)";
+	db.prepare(queryStr);
+	db.bind(1, userID);
+	db.bind(2, userData[pd_GAMENAME]);
+	db.bind(3, userData[pd_MIN_PLAYERS]);
+	db.bind(4, userData[pd_MAX_PLAYERS]);
+	db.bind(5, userData[pd_URL]);
+	db.bind(6, userData[pd_DESC]);
+	dbResult = db.runPrepared();
+	if (dbResult != DB_SUCCESS) {
+		cout << "ERROR" << DLM << "Failed to upload new game [" << dbResult << "] " << " \"" << queryStr << "\"";
+		cout << "&nbsp;&nbsp;";
+		cout << endl;
+		return 0;
+	}
+	
+	//** Return command and data signalling success
+	cout << COMMAND_ADDGAME << endl;
+	return 0;
+	return 0;
+}
+
 int main(int argc, char* argv[])
 {
 	string postText = retrievePost(),
@@ -136,129 +260,24 @@ int main(int argc, char* argv[])
 										DLM << tmpLname << endl;
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_COLOR){
-		//** Error checking (force user to send skey, command, and color)
-		if (userData.size() < 3){
-			cout << "ERROR" << DLM << "Invalid command" << endl;
-			return 0;
-		}
-		
-		//** Force color size to be exactly 6 characters
-		if (userData[pc_COLOR].size() < 6){
-			cout << "ERROR" << DLM << "Invalid command" << endl;
-			return 0;
-		}
-		
-		//** TODO Confirm color is 6 numbers
-		
-		//** Update user's chat color
-		queryStr = "UPDATE HubUsers SET Color = ? WHERE UserID = ?";
-		db.prepare(queryStr);
-		db.bind(1, userData[pc_COLOR]);
-		db.bind(2, userID);
-		dbResult = db.runPrepared();
-		
-		if (dbResult != DB_SUCCESS) {
-			cout << "ERROR||Failed to run prepared query [" << dbResult << "]" << endl;
-			return 0;
-		}
-		
-		//** Return command signalling success
-		cout << COMMAND_COLOR << DLM << userData[pc_COLOR] << endl;
+		//** Update user color
+		profileCommandColor(db, userID, userData);
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_MYGAMES){
-		//** Retrieve user level
-		queryStr = "SELECT UserLevel FROM HubUsers WHERE UserID = ?";
-		db.prepare(queryStr);
-		db.bind(1, userID);
-		dbResult = db.runPrepared();
-		if (dbResult != DB_SUCCESS) {
-			cout << "ERROR||Failed to run prepared query [" << dbResult << "]" << endl;
-			return 0;
-		}
-		
-		//** Confirm user level is high enough to post games
-		userLevel = atol(db[0][0].getData().c_str());
-		if (userLevel < 3){
-			cout << "ERROR||Invalid user level" << endl;
-			return 0;
-		}
-		
-		//** Get list of games
-		queryStr = "SELECT GameID, GameName, URL, Description FROM Games WHERE PosterID = ?";
-		db.prepare(queryStr);
-		db.bind(1, userID);
-		dbResult = db.runPrepared();
-		
-		//** Return command and data signalling success
-		cout << COMMAND_MYGAMES << DLM << db.numRows();
-		
-		//** Output list of games
-		for (int i=0;i<db.numRows();i++){
-			cout << DLM << db[i][0]; //** GameID
-			cout << DLM << db[i][1]; //** GameName
-			cout << DLM << db[i][2]; //** URL
-			cout << DLM << db[i][3]; //** Description
-		}
-		cout << endl;
+		//** Send user list of games attached to their id
+		profileCommandMyGames(db, userID, userData);
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_NEWREG){
 		//** Randomize used registration key
 		randStr(skey, 20);
-		queryStr = "UPDATE HubUsers SET RegistrationCode = ? WHERE UserID = ? AND UserLevel > 1 LIMIT 1";
-		db.prepare(queryStr);
-		db.bind(1, skey);
-		db.bind(2, userID);
-		dbResult = db.runPrepared();
-		if (dbResult != DB_SUCCESS) {
-			cout << "ERROR" << DLM << "Failed to change registration key [" << dbResult << "] " << " \"" << queryStr << "\"" << endl;
-			return 0;
+		if (setRegKey(db, userID.c_str(), skey.c_str())){
+			//** Return command and data signalling success
+			cout << COMMAND_NEWREG << DLM << skey << endl;
 		}
-		
-		//** Return command and data signalling success
-		cout << COMMAND_NEWREG << DLM << skey << endl;
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_ADDGAME){
-		//** Retrieve user level
-		queryStr = "SELECT UserLevel FROM HubUsers WHERE UserID = ?";
-		db.prepare(queryStr);
-		db.bind(1, userID);
-		dbResult = db.runPrepared();
-		if (dbResult != DB_SUCCESS) {
-			cout << "ERROR||Failed to run prepared query [" << dbResult << "]" << endl;
-			return 0;
-		}
-		
-		//** Confirm user level is high enough to post games
-		userLevel = atol(db[0][0].getData().c_str());
-		if (userLevel < 3){
-			cout << "ERROR||Invalid user level" << endl;
-			return 0;
-		}
-		
-		if (userData.size() < 7){
-			cout << "ERROR" << DLM << "Invalid command" << endl;
-			return 0;
-		}
-		
-		//** Todo error checking on games
-		queryStr = "INSERT INTO Games (PosterID, GameName, MinUsers, MaxUsers, URL, Description) VALUES (?, ?, ?, ?, ?, ?)";
-		db.prepare(queryStr);
-		db.bind(1, userID);
-		db.bind(2, userData[pd_GAMENAME]);
-		db.bind(3, userData[pd_MIN_PLAYERS]);
-		db.bind(4, userData[pd_MAX_PLAYERS]);
-		db.bind(5, userData[pd_URL]);
-		db.bind(6, userData[pd_DESC]);
-		dbResult = db.runPrepared();
-		if (dbResult != DB_SUCCESS) {
-			cout << "ERROR" << DLM << "Failed to upload new game [" << dbResult << "] " << " \"" << queryStr << "\"";
-			cout << "&nbsp;&nbsp;";
-			cout << endl;
-			return 0;
-		}
-		
-		//** Return command and data signalling success
-		cout << COMMAND_ADDGAME << endl;
+		//** Add game to Games table under user's id
+		profileCommandAddGame(db, userID, userData);
 		return 0;
 	}
 	
