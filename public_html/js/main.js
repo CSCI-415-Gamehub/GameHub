@@ -338,6 +338,14 @@ function onRegisterError(err){
 function onMainLoad(){
 	if (elemExists("#btnAddChat")){
 		$("#btnAddChat").click(onChatButton);
+		$("#txtAddChat").keypress(
+		function(evt){
+			if(evt.which == 13){
+				$("#btnAddChat").click();
+				return false;
+			}
+		});
+		
 	}
 	if (elemExists("#topMenu_JoinGame")){
 		$("#topMenu_Wait").height($("#topMenu_JoinGame").height());
