@@ -76,12 +76,11 @@ function splitData(str){
 	}
 	
 	//** Push any remaining characters onto the array
-	tmpStr = str.slice(-2);
-	if (tmpStr == "\n"){
+	if (str.slice(-2) == "\n"){
 		//** Fix random bug that pops up sometimes
-		outputArr.push(str.substring(startPos));
-	} else {
 		outputArr.push(str.substring(0, str.length-2).substring(startPos));
+	} else {
+		outputArr.push(str.substring(startPos));
 	}
 	
 	//** Return array
@@ -460,7 +459,7 @@ function onChatUpdate(data){
 	
 	//** Add error message to chat
 	if (dataArr[0] == "ERROR"){
-		var newDiv = createChatLineDiv(dataArr[0], dataArr[1], "FF6666");
+		var newDiv = createChatLineDiv(dataArr[0], dataArr[1], "#FF6666");
 		$("#msgBox").append(newDiv);
 		var objDiv = document.getElementById("msgBox");
 		objDiv.scrollTop = objDiv.scrollHeight;
@@ -476,7 +475,7 @@ function onChatUpdate(data){
 		tmpMsg = dataArr[i+1];
 		tmpColor = dataArr[i+2];
 		
-		var newDiv = createChatLineDiv(tmpName, tmpMsg, tmpColor);
+		var newDiv = createChatLineDiv(tmpName, tmpMsg, "#" + tmpColor);
 		$("#msgBox").append(newDiv);
 	}
 	
@@ -507,7 +506,7 @@ function createChatLineDiv(nameStr, textStr, color){
 	
 	var textSpan = document.createElement('span');
 	textSpan.className = 'userText';
-	textSpan.style.color = "#" + color;
+	textSpan.style.color = color;
 	$(textSpan).text(textStr);
 	
 	lineDiv.appendChild(nameSpan);
