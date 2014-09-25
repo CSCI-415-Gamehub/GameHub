@@ -151,7 +151,6 @@ int profileCommandAddGame(sqltWrap &db, string &userID, vector<string> &userData
 	//** Return command and data signalling success
 	cout << COMMAND_ADDGAME << endl;
 	return 0;
-	return 0;
 }
 
 int main(int argc, char* argv[])

@@ -66,11 +66,10 @@ int main(int argc, char* argv[])
 	if (db.runPrepared() == DB_SUCCESS) {
 		sendStr = "";
 		for (int i=0; i < db.numRows();i++){
-			sendStr += DLM;
 			tmpName = db[i][0];
 			tmpMessage = db[i][1];
 			tmpColor = db[i][2];
-			sendStr += tmpName + DLM + tmpMessage + DLM + tmpColor;
+			sendStr += DLM + tmpName + DLM + tmpMessage + DLM + tmpColor;
 		}
 		cout << currentTime << sendStr << endl;
 	} else {

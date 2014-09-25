@@ -500,7 +500,6 @@ function createChatLineDiv(nameStr, textStr, color){
 	
 	var lineDiv = document.createElement('div');
 	lineDiv.className = 'chatLine';
-	$(lineDiv).css("color: #" + color);
 	
 	var nameSpan = document.createElement('span');
 	nameSpan.className = 'userName';
@@ -508,6 +507,7 @@ function createChatLineDiv(nameStr, textStr, color){
 	
 	var textSpan = document.createElement('span');
 	textSpan.className = 'userText';
+	textSpan.style.color = "#" + color;
 	$(textSpan).text(textStr);
 	
 	lineDiv.appendChild(nameSpan);

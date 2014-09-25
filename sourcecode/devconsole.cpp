@@ -108,7 +108,7 @@ cout << "<div class='contentMenu' style='display:inline-block; background-color:
 		"</div>" <<
 		"<div class='inputBox'>" <<
 			"<span class='inputLabel'>Sent...</span></br>" <<
-			"<input id='sentData' type='text' style='width:300px;background-color:AAAAAA;'>" <<
+			"<input id='sentData' type='text' style='width:500px;background-color:AAAAAA;'>" <<
 		"</div>" <<
 		"<div class='buttonBar'>" <<
 			"<input id='btnSesKey' type='button' value='Session Key (enabled)' />&nbsp;" <<
