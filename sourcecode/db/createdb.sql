@@ -11,7 +11,7 @@ RegistrationID INTEGER,
 InviteID VARCHAR (20),
 UserLevel VARCHAR (20),
 Color VARCHAR (6),
-CreateTime DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+CreateTime DATETIME DEFAULT strftime('%s', 'now') NOT NULL
 );
 
 CREATE TABLE HubMessages
@@ -19,7 +19,7 @@ CREATE TABLE HubMessages
 Msg VARCHAR (200),
 GameField VARCHAR (50),
 Color VARCHAR (6),
-CreateTime DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+CreateTime DATETIME DEFAULT strftime('%s', 'now') NOT NULL
 );
 
 CREATE TABLE Games
@@ -34,7 +34,7 @@ URL Varchar(1042),
 Description Varchar(1041),
 TimesPlayed integer, 
 Ratings integer,
-CreateTime DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+CreateTime DATETIME DEFAULT strftime('%s', 'now') NOT NULL
 );
 
 Create Table Sessions 
@@ -42,8 +42,8 @@ Create Table Sessions
 SessionID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 GameID INTEGER,
 UserID INTEGER,
-UpdateTime DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-CreateTime DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+UpdateTime DATETIME DEFAULT strftime('%s', 'now') NOT NULL,
+CreateTime DATETIME DEFAULT strftime('%s', 'now') NOT NULL
 );
 
 Create Table GameSessions 
@@ -52,14 +52,14 @@ SessionID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 GameID INTEGER,
 UserID INTEGER,
 Password VARCHAR (20),
-CreateTime DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+CreateTime DATETIME DEFAULT strftime('%s', 'now') NOT NULL
 );
 
 CREATE TABLE RecentlyPlayed
 (
 GameID INTEGER,
 UserID INTEGER,
-CreateTime DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+CreateTime DATETIME DEFAULT strftime('%s', 'now') NOT NULL
 );
 
 CREATE TABLE Settings
@@ -67,4 +67,11 @@ CREATE TABLE Settings
 KeyID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 KeyName VARCHAR(10),
 KeyValue VARCHAR(10)
+);
+
+CREATE TABLE AdminLog
+(
+UserID INTEGER,
+LogText VARCHAR(300),
+CreateTime DATETIME DEFAULT strftime('%s', 'now') NOT NULL
 );

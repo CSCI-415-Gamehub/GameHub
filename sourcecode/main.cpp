@@ -20,6 +20,58 @@ const string COMMAND_GAMELIST = "GAMES",
 
 using namespace std;
 
+int mainSendGameList(sqltWrap &db, string gameID, string orderBy){
+	string queryStr = "SELECT PosterID, GameID, GameName, URL, Description FROM Games ";
+	int dbResult;
+
+	//** Build query
+	if (orderBy != ""){
+		//** Add order to query and pad with whitespace if necessary
+		queryStr += "ORDER BY";
+		if (orderBy.substr(0,1) != " ") queryStr += " ";
+		queryStr += orderBy;
+		if (orderBy.substr(orderBy.size()-1,1) != " ") queryStr += " ";
+	}
+	queryStr += "LIMIT 10";
+	
+	//** Get list of games
+	db.prepare(queryStr);
+	dbResult = db.runPrepared();
+	if (dbResult != DB_SUCCESS){
+		cout << "ERROR" << DLM << "Failed to retrieve games [" << dbResult << "]" << endl;
+		return 0;
+	}
+	
+	//** Return command and data signalling success
+	cout << COMMAND_GAMELIST << DLM << db.numRows();
+	
+	//** Output list of games
+	for (int i=0;i<db.numRows();i++){
+		cout << DLM << db[i][0]; //** UserID
+		cout << DLM << db[i][1]; //** GameID
+		cout << DLM << db[i][2]; //** GameName
+		cout << DLM << db[i][3]; //** URL
+		cout << DLM << db[i][4]; //** Description
+	}
+	cout << endl;
+}
+
+int mainSendSessionList(sqltWrap &db, string gameID, string orderBy){
+	string queryStr = "SELECT a.SessionID, b.Username FROM GameSessions a, HubUsers b WHERE UserID ORDER BY CreateTime ASC ";
+
+	//** Build query
+	if (orderBy != ""){
+		//** Add order to query and pad with whitespace if necessary
+		queryStr += "ORDER BY";
+		if (orderBy.substr(0,1) != " ") queryStr += " ";
+		queryStr += orderBy;
+		if (orderBy.substr(orderBy.size()-1,1) != " ") queryStr += " ";
+	}
+	queryStr += "LIMIT 10";
+	
+	
+}
+
 int main(int argc, char* argv[])
 {
 	string postText = retrievePost();
@@ -55,12 +107,9 @@ int main(int argc, char* argv[])
 	//** Handle commands
 	if (postData[pd_COMMAND] == COMMAND_GAMELIST){
 		//** Send list of games
-		
-		queryStr = "SELECT ";
-		
-		cout << COMMAND_GAMELIST << endl;
+		mainSendGameList(db);
 		return 0;
-	} else if (postData[pd_COMMAND] == COMMAND_SESSIONLIST){
+	} else if (postData[pd_COMMAND] == COMMAND_SESSIONLIST){ //**TODO: Finish this
 		//** Send list of sessions for a game
 		cout << COMMAND_SESSIONLIST << endl;
 		return 0;
@@ -84,10 +133,8 @@ int main(int argc, char* argv[])
 		//** Initialize a game session
 		cout << COMMAND_JOIN << endl;
 		return 0;
-	} else {
-		cout << "ERROR" << DLM << "Invalid command." << endl;
 	}
 	
-	cout << "success" << endl;
+	cout << "ERROR" << DLM << "Invalid command." << endl;
 	return 0;
 }
