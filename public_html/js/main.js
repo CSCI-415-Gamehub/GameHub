@@ -393,7 +393,7 @@ function onAdminLoad(){
 function onAdminClick(){
 	$("#innerBody").fadeOut(600, function(){$("#innerBody").load("admin.html", "", function(){
 		$("#innerBody").fadeIn(400, function(){
-			onADminLoad();
+			onAdminLoad();
 		})
 	})});
 }
