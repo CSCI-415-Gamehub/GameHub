@@ -23,8 +23,8 @@ chatsend.cgi: chatsend.cpp sqltdb.o common.o
 chatupdate.cgi: chatupdate.cpp sqltdb.o common.o
 	$(CC) -std=c++11 -o $(DIR)chatupdate.cgi chatupdate.cpp sqltdb.o common.o -lsqlite3
 	
-profile.cgi: profile.cpp sqltdb.o common.o
-	$(CC) -std=c++11 -o $(DIR)profile.cgi profile.cpp sqltdb.o common.o -lsqlite3
+profile.cgi: profile.cpp sqltdb.o randStrHash.o common.o
+	$(CC) -std=c++11 -o $(DIR)profile.cgi profile.cpp sqltdb.o randStrHash.o common.o -lsqlite3 $(TAGS)
 
 play.cgi: play.cpp
 	$(CC) -std=c++11 -o $(DIR)play.cgi play.cpp
