@@ -99,7 +99,8 @@ void sendDevPage(){
 cout << "<div class='contentMenu' style='display:inline-block; background-color: #262626; margin: 10px; min-width:640px; padding: 15px; border-radius:20px; border: 2px solid #fdc163;overflow-y: scroll; margin-left:auto;margin-right:auto;'>" <<
 		"<div class='inputBox'>" <<
 			"<span class='inputLabel'>URL</span></br>" <<
-			"<input id='inURL' type='text' style='width:300px;' value='file.cgi'>" <<
+			"<input id='inURL' type='text' style='width:300px;' value='main'>" <<
+			"<input id='inFileType' type='text' style='width:50px;' value='.cgi'>" <<
 		"</div>" <<
 		"<div class='inputBox'>" <<
 			"<span class='inputLabel'>Sending Data</span></br>" <<
@@ -138,7 +139,7 @@ cout << "<div class='contentMenu' style='display:inline-block; background-color:
 		"function onSendData(){" <<
 			//** Send button event handler
 			"var dataVal = $('#inData').val()," <<
-				"destURL = 'cgi-bin/' + $('#inURL').val();" <<
+				"destURL = 'cgi-bin/' + $('#inURL').val() + $('#inFileType').val();" <<
 				
 			"if (addSesKey){" <<
 				"dataVal = sesKey + DLM + dataVal" <<
@@ -168,11 +169,18 @@ cout << "<div class='contentMenu' style='display:inline-block; background-color:
 			"}" <<
 		"}" <<
 		"function onDLMAdd(){" <<
-			"$('#inData').val($('#inData').val() + DLM)" <<
+			"$('#inData').val($('#inData').val() + DLM);" <<
+			"$('#inData').focus();" <<
 		"};" <<
 		"function onAjaxError(jqXHR, textStatus, errorThrown){" <<
 			//** ToDo: Improve this
 			"showError(errorThrown);" <<
+		"}" <<
+		"function onDevEnter(evt){" <<
+			"if (evt.which == 13){" <<
+				"$('#btnSend').click();" <<
+				"return false;" <<
+			"}" <<
 		"}" <<
 		
 		//** On document load
@@ -181,6 +189,9 @@ cout << "<div class='contentMenu' style='display:inline-block; background-color:
 			"$('#btnSend').click(onSendData);" <<
 			"$('#btnSesKey').click(onSesKeyToggle);" <<
 			"$('#btnAddToken').click(onDLMAdd);" <<
+			"$('#inURL').keypress(onDevEnter);" <<
+			"$('#inFileType').keypress(onDevEnter);" <<
+			"$('#inData').keypress(onDevEnter);" <<
 		"});" <<
 	"</script>"	<< endl;	
 }
