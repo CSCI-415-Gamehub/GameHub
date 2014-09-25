@@ -11,7 +11,8 @@ var UserID = 0,
 var uLevelNames = ['NonUser', 'Player', 'Poster', 'Moderator', 'Admin'];
 var DLM = "_|"; //** Delimiting value
 var timeObj = new Date();
-var lastUpdate = Math.floor(timeObj.getTime()/1000)-10;
+var lastUpdate = Math.floor(timeObj.getTime()/1000)-10,
+	chatInstances = 0;
 var updateWait = 5000;
 var pageTarget = "",
 	nextURL = "";
@@ -341,7 +342,10 @@ function onMainLoad(){
 		$("#topMenu_Wait").hide();
 	}
 	if (elemExists("#msgBox")){
-		requestUpdate();
+		if (chatInstances == 0){
+			chatInstances++;
+			requestUpdate();
+		}
 	}
 	
 	requestMainContent();
@@ -437,7 +441,10 @@ function onLoadPage(){
 		$("#topMenu_Wait").hide();
 	}
 	if (elemExists("#msgBox")){
-		requestUpdate();
+		if (chatInstances == 0){
+			chatInstances++;
+			requestUpdate();
+		}
 	}
 }
 
@@ -520,10 +527,13 @@ function requestUpdate(){
 		jQuery.ajax( cgiUrl + "chatupdate.cgi", {"data": sesKey + DLM + lastUpdate, "type": "POST"} ).done(onChatUpdate);
 		if (elemExists("#msgBox")){
 			setTimeout(requestUpdate, updateWait);
+			return;
 		}
 	} else if (elemExists("#msgBox")){
 		setTimeout(requestUpdate, lastUpdate - timeObj.getTime());
+		return;
 	}
+	chatInstances--;
 }
 function sendChatMessage(msg){
 	//** Update only if necessary
