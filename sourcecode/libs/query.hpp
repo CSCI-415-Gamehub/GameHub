@@ -52,8 +52,7 @@ int checkSession(sqltWrap &db, const char *skey){
 }
 
 int checkSession(sqltWrap &db, const char *skey, const char *extraVals){
-	int dbResult,
-		ret = -1;
+	int dbResult;
 	string eVals = extraVals,
 		   query = "SELECT UserID" + eVals + " FROM Sessions WHERE SessionKey = ?";
 	
@@ -64,6 +63,22 @@ int checkSession(sqltWrap &db, const char *skey, const char *extraVals){
 	if (dbResult != DB_SUCCESS){ return dbResult; }
 
 	return dbResult;
+}
+
+bool setRegKey(sqltWrap &db, const char *skey, const char *userID){
+	string queryStr = "UPDATE HubUsers SET RegistrationCode = ? WHERE UserID = ? AND UserLevel > 1 LIMIT 1";
+	int dbResult;
+	
+	//** Change user registration key
+	db.prepare(queryStr);
+	db.bind(1, skey);
+	db.bind(2, userID);
+	dbResult = db.runPrepared();
+	if (dbResult != DB_SUCCESS) {
+		cout << "ERROR" << DLM << "Failed to change registration key [" << dbResult << "] " << " \"" << queryStr << "\"" << endl;
+		return false;
+	}
+	return true;
 }
 
 #endif /* QUERY_HPP_ */
