@@ -104,6 +104,7 @@ cout << "<div class='contentMenu' style='display:inline-block; background-color:
 		"<div class='inputBox'>" <<
 			"<span class='inputLabel'>Sending Data</span></br>" <<
 			"<input id='inData' type='text' style='width:300px;'>" <<
+			"<input id='btnAddToken' type='button' value='+DLM' />" <<
 		"</div>" <<
 		"<div class='inputBox'>" <<
 			"<span class='inputLabel'>Sent...</span></br>" <<
@@ -166,6 +167,9 @@ cout << "<div class='contentMenu' style='display:inline-block; background-color:
 				"$('#btnSesKey').val('Session Key (enabled)')" <<
 			"}" <<
 		"}" <<
+		"function onDLMAdd(){" <<
+			"$('#inData').val($('#inData').val() + DLM)" <<
+		"};" <<
 		"function onAjaxError(jqXHR, textStatus, errorThrown){" <<
 			//** ToDo: Improve this
 			"showError(errorThrown);" <<
@@ -176,6 +180,7 @@ cout << "<div class='contentMenu' style='display:inline-block; background-color:
 			//** Send button event set
 			"$('#btnSend').click(onSendData);" <<
 			"$('#btnSesKey').click(onSesKeyToggle);" <<
+			"$('#btnAddToken').click(onDLMAdd);" <<
 		"});" <<
 	"</script>"	<< endl;	
 }
