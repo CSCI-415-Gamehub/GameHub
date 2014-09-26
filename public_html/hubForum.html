@@ -46,28 +46,29 @@
    Event Handlers
    ******************************/
 	
-   function showGame()
+   function forumHideAll()
    {
-   document.getElementById("gameInput").value = "";
-   document.getElementById("games").className = "unhidden";
-   document.getElementById("hub").className = "hidden";
-   document.getElementById("misc").className = "hidden";
+	$("#games").hide();
+	$("#hub").hide();
+	$("#misc").hide(); 
    }
-   /************************************************************************
-   window.onload: Used to connect events to event handlers
-   *************************************************************************/   
-    
-   window.onload = function()
+   function setForumButtons()
    {
-   //*** ONCLICK FOR SWITCHING SCREENS
-   document.getElementById("gamesTab").onclick = showGame;
-   document.getElementById("hubTab").onclick = showHub;
-   document.getElementById("miscTab").onclick = showMisc;
-   
-   //*** ONCLICK FOR CONTACTING SERVER
-   document.getElementById("gamePost").onclick = postGame;
-   document.getElementById("hubPost").onclick = postHub;
-   document.getElementById("miscPost").onclick = postMisc;
+	$("#games").click(function()
+	{
+		forumHideAll();
+		$("#games").show();
+	});
+	$("#hub").click(function()
+	{
+		forumHideAll();
+		$("#hub").show();
+	});
+	$("#misc").click(function()
+	{
+		forumHideAll();
+		$("#misc").show();
+	});
    }
     
    /************************************************************************
