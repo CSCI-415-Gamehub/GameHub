@@ -1,121 +1,337 @@
 <!DOCTYPE html>
 <!--Edited by Justin Henderson-->
+<html>
+<head>
 
-		<script>
-			function deleteGame() {
-    			confirm("You are about to delete a game, press cancel to stop this action.");
-			}
-			function deleteUser() {
-    			confirm("You are about to delete a user, press cancel to stop this action.");
-			}
-			function banUser() {
-    			confirm("You are about to ban a user! Press cancel to stop this action.");
-			}
-			
-			function sliderChange(val) {
-				// Use Ajax post to send the adjusted value to PHP or MySQL storage
-				document.getElementById('sliderStatus').innerHTML = val;
-			}
-		</script>
-		
+    <script>
+        function deleteGame() {
+                confirm("You are about to delete a game, press cancel to stop this action.");
+            }
+            function deleteUser() {
+                confirm("You are about to delete a user, press cancel to stop this action.");
+            }
+            function banUser() {
+                confirm("You are about to ban a user! Press cancel to stop this action.");
+            }
+            
+            function sliderChange(val) {
+                // Use Ajax post to send the adjusted value to PHP or MySQL storage
+                document.getElementById('sliderStatus').innerHTML = val;
+            }
+    </script>
 
+    <title></title>
+</head>
 
-	<div class="standard">
-		<div align=""> <!--Possible div to center all the fields in the Standard Div -->
-			<h1>Administrator Page</h1>
-				<h4>Game Management:</h4>
-				<div method="get">
+<body>
+    <div class="standard">
+        <div>
+            <!--Possible div to center all the fields in the Standard Div -->
 
-				<input list="games" name="gamebrowser"><!--!Idea, not sure if this will work!to search for games -->
-					<datalist id="games">
- 				 		<option value="Game 1">
-  						<option value="Game 2">
-  						<option value="Game 3">
- 					 	<option value="Game 4">
-  						<option value="Game 5">
-					</datalist>
-				
-					<button type="button" style="width:7%;"  onclick="deleteGame()" id="DeleteGame">Delete Game</button> <!--Deletes Selected Game from Hub -->
-				</div>	
-				<h4>Modify Game:</h4>
-					Game Name<br />
-					<input id="GameName" type="text" size="18" />
-					</br>
-					Game URL<br />
-					<input id="GameURL" type="url" size="18" />
-					</br>
-					Description<br />
-					<textarea rows="4" cols="40">
-						
-					</textarea>
-					</br>
-					Minimum Users<br />
-					<input id="MinimumUsers" type="text" size="2" />
-					</br>
-					Max Users<br />
-					<input id="MaxUsers" type="text" size="2" />
-					</br>
-				
-					<button type="button" style="width:7%;"  onclick="" id="ModifyGame">Modify Game</button>
-				
-				<br/>
-				<h4>User Management:</h4>
-				<div method="get">
-				<input list="players" name="userbrowser"><!--Same as above, will have to see if we can append to the lest -->
-					<datalist id="players">
- 				 		<option value="player1">
-  						<option value="player2">
-  						<option value="player3">
- 					 	<option value="player4">
-  						<option value="player5">
-					</datalist><!--should work now -->
-				
-					<button type="button" style="width:7%;" onclick="deleteUser()" id="DeleteUser">Delete User</button> <!--Deletes Selected Game from Hub -->
-					<button type="button" style="width:7%;" id="MuteUser">Mute User</button>
-					<button type="button" style="width:7%;" id="UnmuteUser">Unmute User</button>
-					<button type="button" style="width:7%;" onclick="banUser()" id="BanUser">Ban User</button>
-				</div>
-				<br/>
-				
-				<h4>Timeout Management:</h4>
-				<input type="range" min="0" max="30" value="15" step="1" onChange="sliderChange(this.value)" /><!--Slider moves one at a time, max is 30-->
-				<span id="sliderStatus">30</span><br/>
-				<input type="submit" style="width:7%;">
-				<br/>
-				<br/>
-				<h4>Change User Level:</h4>
-				<div method="get">
+            <h1>Administrator Page</h1>
 
-				<input list="users" name="gamebrowser"><!--should work now -->
-					<datalist id="users">
- 				 		<option value="username1">
-  						<option value="username2">
-  						<option value="username3">
- 					 	<option value="username4">
-  						<option value="username5">
-					</datalist>
+            <h4>Game Management:</h4>
 
-				</div>
-				<select>
- 					 <option value="0">0</option>
- 					 <option value="1">1</option>
-				</select>
-				<input type="submit" style="width:7%;">
-				
-				<br/><br/>
-				<h4>Display registration requests:</h4>
-				<table style="width:10%" border="1">
-  					<tr>
-    					<th>email (displayed here) </th>
-  					</tr>
- 				    <tr>
-   						<td>student@morningside.edu</td>
-  					</tr>
-  					 <tr>
-   						<td>student@morningside.edu</td>
- 
-  					</tr>
-				</table>
-		</div>
-	</div>
-	
+            <div>
+                <input list="games" name="gamebrowser">
+                <!--!Idea, not sure if this will work!to search for games -->
+                 <datalist id="games"></datalist>
+            </div>
+        </div>
+    </div><button id="DeleteGame" onclick="deleteGame()" style="width:7%;" type="button">Delete Game</button> <!--Deletes Selected Game from Hub -->
+
+    <h4>Modify Game:</h4>Game Name<br>
+
+    <form>
+        <input id="GameName" size="18" type="text"><br>
+        Game URL<br>
+        <input id="GameURL" size="18" type="url"><br>
+        Description<br>
+        <textarea cols="40" rows="4"></textarea><br>
+        Minimum Users<br>
+        <input id="MinimumUsers" size="2" type="text"><br>
+        Max Users<br>
+        <input id="MaxUsers" size="2" type="text"><br>
+        <button id="ModifyGame" onclick="" style="width:7%;" type="button">Modify Game</button><br>
+    </form>
+
+    <h4>User Management:</h4>
+
+    <div style="background-color: #262626; margin: 0px 10px 10px 10px; padding: 15px; border-radius:20px; width:auto; border: 2px solid #fdc163; height: 200px; overflow: scroll;">
+    <table border="1" style=" border-collapse: collapse; border-color: #fdc163;" width="700">
+            <tr>
+                <th>
+                    <a href="">First Name</a>
+                </th>
+
+                <th>
+                    <a href="">Last Name</a>
+                </th>
+
+                <th width="91">
+                    <a href="">Status</a>
+                </th>
+
+                <th width="61"></th>
+            </tr>
+
+            <tbody id="playerList">
+                <tr>
+                    <td>John</td>
+
+                    <td>Smith</td>
+
+                    <td><select>
+                        <option disabled selected>
+                            Edit Status
+                        </option>
+
+                        <option value="admin">
+                            Admin
+                        </option>
+
+                        <option value="player">
+                            Player
+                        </option>
+
+                        <option value="banned">
+                            Banned
+                        </option>
+                    </select></td>
+
+                    <td><button onclick="removeFun()">Remove</button></td>
+                </tr>
+
+                <tr>
+                    <td>Beast</td>
+
+                    <td>Magee</td>
+
+                    <td><select>
+                        <option disabled selected>
+                            Edit Status
+                        </option>
+
+                        <option value="admin">
+                            Admin
+                        </option>
+
+                        <option value="player">
+                            Player
+                        </option>
+
+                        <option value="banned">
+                            Banned
+                        </option>
+                    </select></td>
+
+                    <td><button onclick="removeFun()">Remove</button></td>
+                </tr>
+
+                <tr>
+                    <td>Alex</td>
+
+                    <td>Dau</td>
+
+                    <td><select>
+                        <option disabled selected>
+                            Edit Status
+                        </option>
+
+                        <option value="admin">
+                            Admin
+                        </option>
+
+                        <option value="player">
+                            Player
+                        </option>
+
+                        <option value="banned">
+                            Banned
+                        </option>
+                    </select></td>
+
+                    <td><button onclick="removeFun()">Remove</button></td>
+                </tr>
+
+                <tr>
+                    <td>John</td>
+
+                    <td>Smith</td>
+
+                    <td><select>
+                        <option disabled selected>
+                            Edit Status
+                        </option>
+
+                        <option value="admin">
+                            Admin
+                        </option>
+
+                        <option value="player">
+                            Player
+                        </option>
+
+                        <option value="banned">
+                            Banned
+                        </option>
+                    </select></td>
+
+                    <td><button onclick="removeFun()">Remove</button></td>
+                </tr>
+
+                <tr>
+                    <td>Beast</td>
+
+                    <td>Magee</td>
+
+                    <td><select>
+                        <option disabled selected>
+                            Edit Status
+                        </option>
+
+                        <option value="admin">
+                            Admin
+                        </option>
+
+                        <option value="player">
+                            Player
+                        </option>
+
+                        <option value="banned">
+                            Banned
+                        </option>
+                    </select></td>
+
+                    <td><button onclick="removeFun()">Remove</button></td>
+                </tr>
+
+                <tr>
+                    <td>Alex</td>
+
+                    <td>Dau</td>
+
+                    <td><select>
+                        <option disabled selected>
+                            Edit Status
+                        </option>
+
+                        <option value="admin">
+                            Admin
+                        </option>
+
+                        <option value="player">
+                            Player
+                        </option>
+
+                        <option value="banned">
+                            Banned
+                        </option>
+                    </select></td>
+
+                    <td><button onclick="removeFun()">Remove</button></td>
+                </tr>
+
+                <tr>
+                    <td>John</td>
+
+                    <td>Smith</td>
+
+                    <td><select>
+                        <option disabled selected>
+                            Edit Status
+                        </option>
+
+                        <option value="admin">
+                            Admin
+                        </option>
+
+                        <option value="player">
+                            Player
+                        </option>
+
+                        <option value="banned">
+                            Banned
+                        </option>
+                    </select></td>
+
+                    <td><button onclick="removeFun()">Remove</button></td>
+                </tr>
+
+                <tr>
+                    <td>Beast</td>
+
+                    <td>Magee</td>
+
+                    <td><select>
+                        <option disabled selected>
+                            Edit Status
+                        </option>
+
+                        <option value="admin">
+                            Admin
+                        </option>
+
+                        <option value="player">
+                            Player
+                        </option>
+
+                        <option value="banned">
+                            Banned
+                        </option>
+                    </select></td>
+
+                    <td><button onclick="removeFun()">Remove</button></td>
+                </tr>
+
+                <tr>
+                    <td>Alex</td>
+
+                    <td>Dau</td>
+
+                    <td><select>
+                        <option disabled selected>
+                            Edit Status
+                        </option>
+
+                        <option value="admin">
+                            Admin
+                        </option>
+
+                        <option value="player">
+                            Player
+                        </option>
+
+                        <option value="banned">
+                            Banned
+                        </option>
+                    </select></td>
+
+                    <td><button onclick="removeFun()">Remove</button></td>
+                </tr>
+            </tbody>
+        </table><br>
+
+        <h4>Timeout Management:</h4><input max="30" min="0" onchange="sliderChange(this.value)" step="1" type="range" value="15">
+        <!--Slider moves one at a time, max is 30-->
+         <span id="sliderStatus">30</span><br>
+        <input style="width:7%;" type="submit"><br>
+        <br>
+
+    <h4>Display registration requests:</h4>
+
+    <table border="1" style="width:10%">
+        <tr>
+            <th>email (displayed here)</th>
+        </tr>
+
+        <tr>
+            <td>student@morningside.edu</td>
+        </tr>
+
+        <tr>
+            <td>student@morningside.edu</td>
+        </tr>
+    </table>
+</body>
+</html>
