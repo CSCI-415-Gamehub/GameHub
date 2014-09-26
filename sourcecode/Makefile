@@ -3,7 +3,7 @@ DIR = ../public_html/cgi-bin/
 TAGS = -lcrypto++ -lpthread
 
 # Build All
-all: common.o sqltdb.o randStrHash.o login.cgi logout.cgi register.cgi main.cgi chatsend.cgi chatupdate.cgi profile.cgi play.cgi devconsole.cgi
+all: common.o sqltdb.o randStrHash.o login.cgi logout.cgi register.cgi main.cgi admin.cgi games.cgi chatsend.cgi chatupdate.cgi profile.cgi play.cgi devconsole.cgi
 
 login.cgi: login.cpp sqltdb.o randStrHash.o common.o
 	$(CC) -std=c++11 -o $(DIR)login.cgi login.cpp sqltdb.o randStrHash.o common.o -lsqlite3 $(TAGS)
@@ -16,7 +16,13 @@ register.cgi: register.cpp sqltdb.o randStrHash.o common.o
 
 main.cgi: main.cpp sqltdb.o common.o
 	$(CC) -std=c++11 -o $(DIR)main.cgi main.cpp sqltdb.o common.o -lsqlite3
+
+admin.cgi: admin.cpp sqltdb.o randStrHash.o common.o
+	$(CC) -std=c++11 -o $(DIR)admin.cgi admin.cpp sqltdb.o randStrHash.o common.o -lsqlite3 $(TAGS)
 	
+games.cgi: games.cpp sqltdb.o randStrHash.o common.o
+	$(CC) -std=c++11 -o $(DIR)games.cgi games.cpp sqltdb.o randStrHash.o common.o -lsqlite3 $(TAGS)
+
 chatsend.cgi: chatsend.cpp sqltdb.o common.o
 	$(CC) -std=c++11 -o $(DIR)chatsend.cgi chatsend.cpp sqltdb.o common.o -lsqlite3
 	

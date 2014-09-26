@@ -10,8 +10,7 @@
 
 const int pd_SKEY = 0,
 		  pd_COMMAND = 1;
-const string COMMAND_GAMELIST = "GAMES",
-			 COMMAND_SESSIONLIST = "SESSIONS",
+const string COMMAND_SESSIONLIST = "SESSIONS",
 			 COMMAND_POSTGAME = "POST",
 			 COMMAND_GAMEUPDATE = "UPDATE",
 			 COMMAND_CHANGEUSER = "CHANGEUSER",
@@ -19,42 +18,6 @@ const string COMMAND_GAMELIST = "GAMES",
 			 COMMAND_JOIN = "JOIN";
 
 using namespace std;
-
-int mainSendGameList(sqltWrap &db, string gameID, string orderBy){
-	string queryStr = "SELECT PosterID, GameID, GameName, URL, Description FROM Games ";
-	int dbResult;
-
-	//** Build query
-	if (orderBy != ""){
-		//** Add order to query and pad with whitespace if necessary
-		queryStr += "ORDER BY";
-		if (orderBy.substr(0,1) != " ") queryStr += " ";
-		queryStr += orderBy;
-		if (orderBy.substr(orderBy.size()-1,1) != " ") queryStr += " ";
-	}
-	queryStr += "LIMIT 10";
-	
-	//** Get list of games
-	db.prepare(queryStr);
-	dbResult = db.runPrepared();
-	if (dbResult != DB_SUCCESS){
-		cout << "ERROR" << DLM << "Failed to retrieve games [" << dbResult << "]" << endl;
-		return 0;
-	}
-	
-	//** Return command and data signalling success
-	cout << COMMAND_GAMELIST << DLM << db.numRows();
-	
-	//** Output list of games
-	for (int i=0;i<db.numRows();i++){
-		cout << DLM << db[i][0]; //** UserID
-		cout << DLM << db[i][1]; //** GameID
-		cout << DLM << db[i][2]; //** GameName
-		cout << DLM << db[i][3]; //** URL
-		cout << DLM << db[i][4]; //** Description
-	}
-	cout << endl;
-}
 
 int mainSendSessionList(sqltWrap &db, string gameID, string orderBy){
 	string queryStr = "SELECT a.SessionID, b.Username FROM GameSessions a, HubUsers b WHERE UserID ORDER BY CreateTime ASC ";

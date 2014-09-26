@@ -30,14 +30,11 @@ var MAIN_GAMELIST = "GAMES",				//Get list of games +(optional: sort by)
 var PROFILE_MYPROFILE = "SHOWME",			//Get info for user's profile
 	PROFILE_OTHERPROFILE = "SHOWOTHER",		//Get info for someone elses profile +(profile user id)
 	PROFILE_COLOR = "COLOR",				//Set the user's profile color +(string of length 6)
-	PROFILE_MYGAMES = "MYGAMES",			//Get list of users games
-	PROFILE_ADDGAME = "ADDGAME",			//Add a new game +(GameName, Description, URL, MinPlayers, MaxPlayers)
 	PROFILE_NEWREG = "NEWREG",				//Randomizes user's registration code
 	PROFILE_NEWPASS = "NEWPASS",			//Change user's password +(OldPassword, NewPassword)
 	PROFILE_NEWSTATUS = "NEWSTATS";			//Change user's stats +(FirstName, LastName, Email)
 	
-var ADMIN_GAMES = "GAMES",					//Get list of games +(optional: sort by, optional:name)
-	ADMIN_USERS = "USERS",					//Get list of users +(optional: name)
+var ADMIN_USERS = "USERS",					//Get list of users +(optional: name)
 	ADMIN_TIMEOUT = "TIMEOUT",				//Set new global timeout +(new value)
 	ADMIN_USERLEVEL = "USERLEVEL",			//Set user's level +(user id, new userlevel)
 	ADMIN_REGLIST = "REGLIST",				//Get list of registration requests
@@ -46,6 +43,11 @@ var ADMIN_GAMES = "GAMES",					//Get list of games +(optional: sort by, optional
 	ADMIN_MUTEUSER = "SETMUTE",				//Set user mute level +(user id)
 	ADMIN_GAMEDELETE = "GAMEDELETE",		//Remove users game +(game id)
 	ADMIN_USERDELETE = "USERDELETE";		//Remove user's account +(user id)
+	
+var GAMES_MYGAME = "MYGAMES",				//Get list of users games
+	GAMES_ADDGAME = "ADDGAME",				//Add a new game +(GameName, Description, URL, MinPlayers, MaxPlayers)
+	GAMES_GAMES = "GAMES",					//Get a list of top 15 games. +(sorting: (empty), "RATING", "TIME", "NAME")
+	GAME_REMOVE = "REMOVE";					//Drop game from table +(GameId)
 
 //** Commands that the client receives sometimes instead of the above
 var OTHER_TIMEOUT = "TIMEOUT",				//If the user's session timed out this is the only command they get
