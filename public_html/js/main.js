@@ -47,7 +47,7 @@ var ADMIN_USERS = "USERS",					//Get list of users +(optional: name)
 var GAMES_MYGAME = "MYGAMES",				//Get list of users games
 	GAMES_ADDGAME = "ADDGAME",				//Add a new game +(GameName, Description, URL, MinPlayers, MaxPlayers)
 	GAMES_GAMES = "GAMES",					//Get a list of top 15 games. +(sorting: (empty), "RATING", "TIME", "NAME")
-	GAME_REMOVE = "REMOVE";					//Drop game from table +(GameId)
+	GAMES_REMOVE = "REMOVE";					//Drop game from table +(GameId)
 
 //** Commands that the client receives sometimes instead of the above
 var OTHER_TIMEOUT = "TIMEOUT",				//If the user's session timed out this is the only command they get
@@ -385,18 +385,16 @@ function requestMainContent(){
 }
 function onMainClick(){
 	$("#innerBody").fadeOut(600, function(){$("#innerBody").load("main_content.html", "", function(){
-		$("#innerBody").fadeIn(400, function(){
-			onMainLoad();
-		})
+		onMainLoad();
+		$("#innerBody").fadeIn(400);
 	})});
 }
 function onAdminLoad(){
 }
 function onAdminClick(){
 	$("#innerBody").fadeOut(600, function(){$("#innerBody").load("admin.html", "", function(){
-		$("#innerBody").fadeIn(400, function(){
-			onAdminLoad();
-		})
+		onAdminLoad();
+		$("#innerBody").fadeIn(400);
 	})});
 }
 function onProfileClick(){
