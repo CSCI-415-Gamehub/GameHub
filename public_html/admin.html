@@ -1,19 +1,6 @@
 <!DOCTYPE html>
 <!--Edited by Justin Henderson-->
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>The Hub</title>
-		<link rel="icon" type="image/x-icon" href="img/hub5.png" />
-		<link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-		<link href='css/main.css' rel='stylesheet' type='text/css'>
-		<link href='css/profile.css' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
 
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script type="text/javascript" src="js/main.js"></script>
-		<script type="text/javascript" src="js/profile.js"></script>
-		<script type="text/javascript" src="js/download.js"></script>
 		<script>
 			function deleteGame() {
     			confirm("You are about to delete a game, press cancel to stop this action.");
@@ -31,16 +18,16 @@
 			}
 		</script>
 		
-	</head>
-<body>
+
+
 	<div class="standard">
 		<div align=""> <!--Possible div to center all the fields in the Standard Div -->
 			<h1>Administrator Page</h1>
-				Game Management:
-				<form method="get">
+				<h4>Game Management:</h4>
+				<div method="get">
 
-				<input list="browsers" name="gamebrowser"><!--!Idea, not sure if this will work!to search for games -->
-					<datalist id="browsers">
+				<input list="games" name="gamebrowser"><!--!Idea, not sure if this will work!to search for games -->
+					<datalist id="games">
  				 		<option value="Game 1">
   						<option value="Game 2">
   						<option value="Game 3">
@@ -49,37 +36,58 @@
 					</datalist>
 				
 					<button type="button" style="width:7%;"  onclick="deleteGame()" id="DeleteGame">Delete Game</button> <!--Deletes Selected Game from Hub -->
-				</form>
+				</div>	
+				<h4>Modify Game:</h4>
+					Game Name<br />
+					<input id="GameName" type="text" size="18" />
+					</br>
+					Game URL<br />
+					<input id="GameURL" type="url" size="18" />
+					</br>
+					Description<br />
+					<textarea rows="4" cols="40">
+						
+					</textarea>
+					</br>
+					Minimum Users<br />
+					<input id="MinimumUsers" type="text" size="2" />
+					</br>
+					Max Users<br />
+					<input id="MaxUsers" type="text" size="2" />
+					</br>
+				
+					<button type="button" style="width:7%;"  onclick="" id="ModifyGame">Modify Game</button>
+				
 				<br/>
-				User Management:
-				<form method="get">
-				<input list="browsers" name="userbrowser"><!--Same as above, will have to see if we can append to the lest -->
-					<datalist id="browsers">
+				<h4>User Management:</h4>
+				<div method="get">
+				<input list="players" name="userbrowser"><!--Same as above, will have to see if we can append to the lest -->
+					<datalist id="players">
  				 		<option value="player1">
   						<option value="player2">
   						<option value="player3">
  					 	<option value="player4">
   						<option value="player5">
-					</datalist><!--Not sure why this isnt working.-->
+					</datalist><!--should work now -->
 				
 					<button type="button" style="width:7%;" onclick="deleteUser()" id="DeleteUser">Delete User</button> <!--Deletes Selected Game from Hub -->
 					<button type="button" style="width:7%;" id="MuteUser">Mute User</button>
 					<button type="button" style="width:7%;" id="UnmuteUser">Unmute User</button>
 					<button type="button" style="width:7%;" onclick="banUser()" id="BanUser">Ban User</button>
-				</form>
+				</div>
 				<br/>
 				
-				Timeout Management:<br/><br/>
+				<h4>Timeout Management:</h4>
 				<input type="range" min="0" max="30" value="15" step="1" onChange="sliderChange(this.value)" /><!--Slider moves one at a time, max is 30-->
 				<span id="sliderStatus">30</span><br/>
 				<input type="submit" style="width:7%;">
 				<br/>
 				<br/>
-				Change User Level:<br/><br/>
-					<form method="get">
+				<h4>Change User Level:</h4>
+				<div method="get">
 
-				<input list="browsers" name="gamebrowser"><!--Same as above, doesnt work but theoretical-->
-					<datalist id="browsers">
+				<input list="users" name="gamebrowser"><!--should work now -->
+					<datalist id="users">
  				 		<option value="username1">
   						<option value="username2">
   						<option value="username3">
@@ -87,7 +95,7 @@
   						<option value="username5">
 					</datalist>
 
-				</form>
+				</div>
 				<select>
  					 <option value="0">0</option>
  					 <option value="1">1</option>
@@ -95,7 +103,7 @@
 				<input type="submit" style="width:7%;">
 				
 				<br/><br/>
-				Display registration requests:<br/>
+				<h4>Display registration requests:</h4>
 				<table style="width:10%" border="1">
   					<tr>
     					<th>email (displayed here) </th>
@@ -111,6 +119,3 @@
 		</div>
 	</div>
 	
-
-</body>
-</html>
