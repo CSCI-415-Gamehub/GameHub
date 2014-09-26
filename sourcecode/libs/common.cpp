@@ -30,6 +30,31 @@ void toString (string &str, long long num) {
 	str = ss.str();
 }
 
+string toString (int num) {
+	string str; 
+	ostringstream ss;
+	ss << num;
+	str = ss.str();
+	return str;
+}
+
+string toString (long num) {
+	string str;
+	ostringstream ss;
+	ss << num;
+	str = ss.str();
+	return str;
+}
+
+string toString (long long num) {
+	string str;
+	ostringstream ss;
+	ss << num;
+	str = ss.str();
+	return str;
+}
+
+
 string toUpper(string &str) {
 	string strResult = "";
 	for (int i=0;i<str.size();i++){

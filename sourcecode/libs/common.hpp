@@ -16,13 +16,24 @@ using namespace std;
 //** Global constants
 const string DIR_DB = "db/hub.sqlite",
 			 DLM = "_|";
+			 
+//** User level requirements
+const int CHAT_VIEW_LEVEL = 1,			//** Getting chat updates
+		  CHAT_SAY_LEVEL = 1, 			//** Adding chat messages
+		  POST_GAMES_LEVEL = 2, 		//** Posting games
+		  REMOVE_GAMES_LEVEL = 3,		//** Deleting other people's games
+		  ADMIN_PANEL_LEVEL = 3,		//** Admin panel access level
+		  ADMIN_MUTE_USER = 3,			//** Block user's ability to chat
+		  ADMIN_BAN_USER = 3;			//** Ban user from accessing games
 
 //** Methods
 void toString (string &str, int num);
-
 void toString (string &str, long num);
-
 void toString (string &str, long long num);
+
+string toString (int num);
+string toString (long num);
+string toString (long long num);
 
 string toUpper(string &str);
 
