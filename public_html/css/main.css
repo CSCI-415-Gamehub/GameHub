@@ -15,8 +15,8 @@ table{padding: 0px;border-collapse: collapse;}
 .myMenu{color:#626262; position:absolute; right: 15px; visibility:hidden; margin:0; padding:0; width: 75px; background-color:#262626; text-align: center;padding: 5px;} 
 .myMenu li { display:inline; float:none; }  
 .myMenu li a:hover {color:#f79700; }
-.spanLink { }
-.spanLink:hover{cursor:pointer;text-decoration:underline;}
+.spanLink {color:#626262;}
+.spanLink:hover{cursor:pointer;color:#f79700;}
 #innerBody{margin-top:56px;}
 #msgBox{height: 205px; overflow-y: scroll;}
 #loginBody{margin-top:40px;}
