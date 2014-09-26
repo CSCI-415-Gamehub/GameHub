@@ -364,7 +364,7 @@ function onMainLoad(){
 	}
 	
 	requestMainContent();
-	$.ajax("cgi-bin/games.cgi", {data: sesKey + DLM + "SHOWME", type: "POST", success: function(data){
+	$.ajax("cgi-bin/games.cgi", {data: sesKey + DLM + GAMES_GAMES, type: "POST", success: function(data){
 			data = splitData(data);
 			$("#innerBody").fadeIn(400);
 		}, error: function(data){
