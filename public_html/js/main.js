@@ -419,6 +419,8 @@ function onProfileLoad(data){
 	//** setProfileButtons is located in profile.js
 	setProfileButtons();
 	
+	data = splitData(data);
+	
 	$("#profileName").text(UserName);
 	$("#profileLevel").text("-" + uLevelNames[UserLevel] + "-");
 	
@@ -437,10 +439,8 @@ function onProfileLoad(data){
 	
 	//** Show profile
 	$.ajax("cgi-bin/profile.cgi", {data: sesKey + DLM + "SHOWME", type: "POST", success: function(data){
-			$(innerBody).html(data);
 			$("#innerBody").fadeIn(400);
 		}, error: function(data){
-			$(innerBody).html(data);
 			$("#innerBody").fadeIn(400);
 		}});
 }
