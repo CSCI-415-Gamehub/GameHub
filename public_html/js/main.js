@@ -364,6 +364,13 @@ function onMainLoad(){
 	}
 	
 	requestMainContent();
+	$.ajax("cgi-bin/games.cgi", {data: sesKey + DLM + "SHOWME", type: "POST", success: function(data){
+			data = splitData(data);
+			$("#innerBody").fadeIn(400);
+		}, error: function(data){
+			data = splitData(data);
+			$("#innerBody").fadeIn(400);
+		}});
 }
 function requestMainContent(){
 	var gList = document.getElementById("gameList");
