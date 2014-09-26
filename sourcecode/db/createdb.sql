@@ -42,6 +42,7 @@ Create Table Sessions
 SessionID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 GameID INTEGER,
 UserID INTEGER,
+UserLevel INTEGER,
 UpdateTime DATETIME DEFAULT strftime('%s', 'now') NOT NULL,
 CreateTime DATETIME DEFAULT strftime('%s', 'now') NOT NULL
 );
