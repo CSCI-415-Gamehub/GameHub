@@ -7,13 +7,13 @@
         function deleteGame() {
                 confirm("You are about to delete a game, press cancel to stop this action.");
             }
-            function deleteUser() {
-                confirm("You are about to delete a user, press cancel to stop this action.");
-            }
-            function banUser() {
-                confirm("You are about to ban a user! Press cancel to stop this action.");
-            }
-            
+            function removeFun(){
+   			 if (confirm("Confirm User Removal") == true) {
+       
+   			 } else {
+        
+  		     }
+  		    }
             function sliderChange(val) {
                 // Use Ajax post to send the adjusted value to PHP or MySQL storage
                 document.getElementById('sliderStatus').innerHTML = val;
