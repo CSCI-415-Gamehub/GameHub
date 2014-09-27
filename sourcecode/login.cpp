@@ -130,7 +130,7 @@ if (dbResult != DB_SUCCESS) {
 }
 
 //** Create new session
-dbResult = createSession(db, uid, skey);
+dbResult = createSession(db, uid, userLevel, skey);
 if (dbResult != DB_SUCCESS) {
 	cout << "ERROR" << DLM << "Failed to create new session" << endl;
 	return 0;

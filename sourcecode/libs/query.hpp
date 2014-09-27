@@ -21,7 +21,7 @@ int clearOldSessions(sqltWrap &db, string &UserID) {
 	return dbResult;
 }
 
-int createSession(sqltWrap &db, string &UserID, string &skey) {
+int createSession(sqltWrap &db, string &UserID, string &UserLevel, string &skey) {
 	int dbResult;
 	string query = "INSERT INTO Sessions (UserID, SessionKey) VALUES (?, ?)";
 		   
@@ -39,7 +39,7 @@ int createSession(sqltWrap &db, string &UserID, string &skey) {
 int checkSession(sqltWrap &db, const char *skey){
 	int dbResult,
 		ret = -1;
-	string query = "SELECT UserID FROM Sessions WHERE SessionKey = ?";
+	string query = "SELECT UserID, UserLevel FROM Sessions WHERE SessionKey = ?";
 	
 	dbResult = db.prepare(query);
 	if (dbResult != DB_SUCCESS){ return dbResult; }
@@ -54,7 +54,7 @@ int checkSession(sqltWrap &db, const char *skey){
 int checkSession(sqltWrap &db, const char *skey, const char *extraVals){
 	int dbResult;
 	string eVals = extraVals,
-		   query = "SELECT UserID" + eVals + " FROM Sessions WHERE SessionKey = ?";
+		   query = "SELECT UserID, UserLevel" + eVals + " FROM Sessions WHERE SessionKey = ?";
 	
 	dbResult = db.prepare(query);
 	if (dbResult != DB_SUCCESS){ return dbResult; }

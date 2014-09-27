@@ -174,7 +174,8 @@ if (dbResult != DB_SUCCESS) {
 randStr(skey, 20);
 
 //** Create new session
-dbResult = createSession(db, uid, skey);
+string tmpLevel = "1";
+dbResult = createSession(db, uid, tmpLevel, skey);
 if (dbResult != DB_SUCCESS) {
 	cout << "ERROR" << DLM << "Failed to create new session" << endl;
 	return 0;
