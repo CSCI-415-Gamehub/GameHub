@@ -68,17 +68,9 @@ int main(int argc, char* argv[])
 	}
 	
 	//** Handle commands
-	if (postData[pd_COMMAND] == COMMAND_GAMELIST){
-		//** Send list of games
-		mainSendGameList(db);
-		return 0;
-	} else if (postData[pd_COMMAND] == COMMAND_SESSIONLIST){ //**TODO: Finish this
+	if (postData[pd_COMMAND] == COMMAND_SESSIONLIST){ //**TODO: Finish this
 		//** Send list of sessions for a game
 		cout << COMMAND_SESSIONLIST << endl;
-		return 0;
-	} else if (postData[pd_COMMAND] == COMMAND_POSTGAME){
-		//** Initialize a game session
-		cout << COMMAND_POSTGAME << endl;
 		return 0;
 	} else if (postData[pd_COMMAND] == COMMAND_GAMEUPDATE){
 		//** Send list of players in a game and ok message if all slots are taken
