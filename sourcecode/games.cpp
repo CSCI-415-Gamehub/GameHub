@@ -19,6 +19,7 @@ const int pd_GAMENAME = 2,
 		  pd_MAX_PLAYERS = 4,
 		  pd_URL = 5,
 		  pd_DESC = 6;
+const int pd_GAMEID = 2;
 
 const int DEFAULT_LIMIT = 15;
 		  
@@ -42,13 +43,13 @@ int gamesSendGameList(sqltWrap &db, string orderBy, string userID, int gLimit){
 		queryStr += orderBy;
 		if (orderBy.substr(orderBy.size()-1,1) != " ") queryStr += " ";
 	}
-	queryStr += "LIMIT" + toString(gLimit);
+	queryStr += "LIMIT " + toString(gLimit);
 	
 	//** Get list of games
 	db.prepare(queryStr);
 	dbResult = db.runPrepared();
 	if (dbResult != DB_SUCCESS){
-		cout << "ERROR" << DLM << "Failed to retrieve games [" << dbResult << "]" << endl;
+		cout << "ERROR" << DLM << "Failed to retrieve games [" << dbResult << "] \"" << queryStr << "\"" << endl;
 		return 0;
 	}
 	
@@ -66,23 +67,12 @@ int gamesSendGameList(sqltWrap &db, string orderBy, string userID, int gLimit){
 	cout << endl;
 }
 		  
-int gamesCommandMyGames(sqltWrap &db, string &userID, vector<string> &userData){
+int gamesCommandMyGames(sqltWrap &db, string &userID, int &userLevel, vector<string> &userData){
 	string queryStr = "SELECT UserLevel FROM HubUsers WHERE UserID = ?";
-	int dbResult,
-		userLevel;
-	
-	//** Retrieve user level
-	db.prepare(queryStr);
-	db.bind(1, userID);
-	dbResult = db.runPrepared();
-	if (dbResult != DB_SUCCESS) {
-		cout << "ERROR||Failed to run prepared query [" << dbResult << "]" << endl;
-		return 0;
-	}
+	int dbResult;
 	
 	//** Confirm user level is high enough to post games
-	userLevel = atol(db[0][0].getData().c_str());
-	if (userLevel < 3){
+	if (userLevel < REMOVE_GAMES_LEVEL){
 		cout << "ERROR||Invalid user level" << endl;
 		return 0;
 	}
@@ -107,29 +97,18 @@ int gamesCommandMyGames(sqltWrap &db, string &userID, vector<string> &userData){
 	return 0;
 }
 
-int gamesCommandAddGame(sqltWrap &db, string &userID, vector<string> &userData){
-	string queryStr = "SELECT UserLevel FROM HubUsers WHERE UserID = ?";
-	int dbResult,
-		userLevel;
-	
-	//** Retrieve user level
-	db.prepare(queryStr);
-	db.bind(1, userID);
-	dbResult = db.runPrepared();
-	if (dbResult != DB_SUCCESS) {
-		cout << "ERROR||Failed to run prepared query [" << dbResult << "]" << endl;
-		return 0;
-	}
+int gamesCommandAddGame(sqltWrap &db, string &userID, int userLevel, vector<string> &userData){
+	string queryStr;
+	int dbResult;
 	
 	//** Confirm user level is high enough to post games
-	userLevel = atol(db[0][0].getData().c_str());
 	if (userLevel < 3){
 		cout << "ERROR||Invalid user level" << endl;
 		return 0;
 	}
 	
 	if (userData.size() < 7){
-		cout << "ERROR" << DLM << "Invalid command" << endl;
+		cout << "ERROR" << DLM << "Invalid command length" << endl;
 		return 0;
 	}
 	
@@ -154,6 +133,50 @@ int gamesCommandAddGame(sqltWrap &db, string &userID, vector<string> &userData){
 	cout << COMMAND_ADDGAME << endl;
 	return 0;
 }
+int gamesCommandDropGame(sqltWrap &db, string &userID, int userLevel, vector<string> &userData){
+	string queryStr,
+			gameID,
+			posterID;
+	int dbResult;
+	bool hasDropPermission = false;
+	
+	//** Confirm a Game ID is sent
+	if (userData.size() < 3){
+		cout << "ERROR" << DLM << "Invalid command length" << endl;
+		return 0;
+	}
+	
+	//** Retrieve and check Game ID
+	gameID = userData[pd_GAMEID];
+	if (!is_number(gameID)){
+		cout << "ERROR" << DLM << "Invalid game ID." << endl;
+		return 0;
+	}
+	
+	//** Check if game belongs to user
+	queryStr = "SELECT PosterID FROM Games WHERE GameID = ?";
+	db.prepare(queryStr);
+	db.bind(1, gameID);
+	dbResult = db.runPrepared();
+	if (dbResult != DB_SUCCESS) {
+		cout << "ERROR||Failed to run prepared query [" << dbResult << "]" << endl;
+		return 0;
+	}
+	posterID = db[0][0];
+	
+	//** Check if original poster is user
+	if (posterID == gameID){
+		hasDropPermission = true;
+	}
+	
+	if (!hasDropPermission){
+	}
+	
+	//** Return command and data signalling success
+	cout << COMMAND_REMOVE << endl;
+	return 0;
+}
+
 
 int main(int argc, char* argv[])
 {
@@ -170,11 +193,12 @@ int main(int argc, char* argv[])
 		   tmpFname,
 		   tmpLname,
 		   userID,
+		   tmpStr,
 		   skey;
-	int dbResult = 0;
 	time_t currentTime = time(0);
-	long int profileID = 0,
-			 userLevel = 0;
+	int profileID = 0,
+		userLevel = 0,
+		dbResult = 0;
 	sqltWrap db;
 	vector <string> userData;
 	
@@ -203,15 +227,16 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 	userID = db[0][0];
+	userLevel = atol(db[0][1].getData().c_str());
 	
 	//** Get games action
 	if (userData[pd_COMMAND] == COMMAND_MYGAMES){
 		//** Send user list of games attached to their id
-		gamesCommandMyGames(db, userID, userData);
+		gamesCommandMyGames(db, userID, userLevel, userData);
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_ADDGAME){
 		//** Add game to Games table under user's id
-		gamesCommandAddGame(db, userID, userData);
+		gamesCommandAddGame(db, userID, userLevel, userData);
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_GAMES){
 		//** Send user list of games
@@ -230,6 +255,9 @@ int main(int argc, char* argv[])
 				gamesSendGameList(db, "CreateTime", "", DEFAULT_LIMIT);
 			}
 		}
+		return 0;
+	} else if (userData[pd_COMMAND] == COMMAND_REMOVE){
+		gamesCommandDropGame(db, userID, userLevel, userData);
 		return 0;
 	}
 	
