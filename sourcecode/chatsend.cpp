@@ -11,8 +11,7 @@
 using namespace std;
 
 const int pd_SKEY = 0,
-		  pd_MESSAGE = 1,
-		  pd_TIMESTAMP = 2;
+		  pd_MESSAGE = 1;
 
 int main(int argc, char* argv[])
 {
@@ -26,8 +25,10 @@ int main(int argc, char* argv[])
 		   tmpMessage,
 		   tmpColor,
 		   tmpMute,
+		   lastUpdate,
 		   UserID;
-	int dbResult = 0;
+	int dbResult = 0,
+		iUpdateTime;
 	time_t currentTime;
 	sqltWrap db;
 	long int updateTime,
@@ -46,7 +47,7 @@ int main(int argc, char* argv[])
 	tokenizeStr(PostText, DLM, userData);
 	
 	//** Handle invalid user data length
-	if (userData.size() < 3){
+	if (userData.size() < 2){
 		cout << "ERROR" << DLM << "Invalid data recieved." << endl;
 		return 0;
 	}
@@ -55,7 +56,7 @@ int main(int argc, char* argv[])
 	db.open(DIR_DB);
 	
 	//** Confirm logged in
-	dbResult = checkSession(db, userData[pd_SKEY].c_str()) != DB_SUCCESS;
+	dbResult = checkSession(db, userData[pd_SKEY].c_str(), ", UpdateTime") != DB_SUCCESS;
 	if (dbResult != DB_SUCCESS){
 		cout << "ERROR" << DLM << "Failed to check session id [" << dbResult << "]" << endl;
 		return 0;
@@ -65,7 +66,9 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 	UserID = db[0][0];
+	lastUpdate = db[0][2];
 	
+	//** Get user's data
 	queryStr = "SELECT Username, Color, MuteLevel FROM HubUsers WHERE UserID = ?";
 	dbResult = db.prepare(queryStr);
 	if (dbResult != DB_SUCCESS) {
@@ -85,41 +88,35 @@ int main(int argc, char* argv[])
 	
 	//** Check if muted
 	muteLevel = strtol(tmpMute.c_str(), NULL, 10);
-	if (muteLevel < 1){
-	
-		//** Send message to database
-		queryStr = "INSERT INTO HubMessages (Username, Msg, Color) VALUES ( ?, ?, ? )";
-		dbResult = db.prepare(queryStr);
-		if (dbResult != DB_SUCCESS) {
-			cout << "ERROR||Failed to prepare query. [" << dbResult << "]" << endl;
-			return 0;
-		}
-		db.bind(1, tmpName);
-		db.bind(2, userData[pd_MESSAGE].c_str());
-		db.bind(3, tmpColor);
-		
-		dbResult = db.runPrepared();
-		if (dbResult != DB_SUCCESS) {
-			cout << "ERROR" << DLM << "Failed to run prepared query [" << dbResult << "]" << endl;
-			return 0;
-		}
-	}
-	
-	//** Error checking
-	if (!is_number(userData[2])){
-		cout << "ERROR" << DLM << "Invalid update time '" << userData[2] << "'" << endl;
+	if (muteLevel > 0){
+		cout << "ERROR" << DLM << "Can't chat when muted." << endl;
 		return 0;
 	}
 	
-	//** Convert time
-	updateTime = strtol(userData[pd_TIMESTAMP].c_str(), NULL, 10);
-	toString(postStr, updateTime);
+	//** Send message to database
+	queryStr = "INSERT INTO HubMessages (Username, Msg, Color) VALUES ( ?, ?, ? )";
+	dbResult = db.prepare(queryStr);
+	if (dbResult != DB_SUCCESS) {
+		cout << "ERROR||Failed to prepare query. [" << dbResult << "]" << endl;
+		return 0;
+	}
+	db.bind(1, tmpName);
+	db.bind(2, userData[pd_MESSAGE].c_str());
+	db.bind(3, tmpColor);
+	
+	dbResult = db.runPrepared();
+	if (dbResult != DB_SUCCESS) {
+		cout << "ERROR" << DLM << "Failed to run prepared query [" << dbResult << "]" << endl;
+		return 0;
+	}
+	
 	currentTime = time(0);
 	
 	//** Get messages from database
-	queryStr = "SELECT Username, Msg, Color FROM HubMessages WHERE CreateTime >= ? ORDER BY CreateTime ASC";
+	queryStr = "SELECT Username, Msg, Color FROM HubMessages WHERE CreateTime >= ? AND CreateTime < ? ORDER BY CreateTime ASC";
 	db.prepare(queryStr);
-	db.bind(1, updateTime);
+	db.bind(1, lastUpdate);
+	db.bind(2, currentTime);
 	
 	//** Run command and send output
 	if (db.runPrepared() == DB_SUCCESS) {

@@ -359,7 +359,7 @@ function onMainLoad(){
 	if (elemExists("#msgBox")){
 		if (chatInstances == 0){
 			chatInstances++;
-			requestUpdate();
+			requestUpdate("START");
 		}
 	}
 	
@@ -478,7 +478,7 @@ function onLoadPage(){
 	if (elemExists("#msgBox")){
 		if (chatInstances == 0){
 			chatInstances++;
-			requestUpdate();
+			requestUpdate("START");
 		}
 	}
 }
@@ -526,10 +526,15 @@ function onChatUpdate(data){
 	objDiv.scrollTop = objDiv.scrollHeight;
 }
 function onChatButton(){
-	var chatTxt = $("#txtAddChat").val();
-	$("#txtAddChat").val("");
+	var chatTxt = $("#txtAddChat").val(),
+		trimTxt = chatTxt.trim();
 	
 	if (chatTxt == ""){ return; }
+	if (chatTxt.length < 3){ return; }
+
+	$("#txtAddChat").val("");
+	
+	if (trimTxt.length < 3){ return; }
 	
 	sendChatMessage(chatTxt);
 }
@@ -538,28 +543,36 @@ function createChatLineDiv(nameStr, textStr, color){
 	if (nameStr == ""){
 		nameStr = "Anonymous";
 	}
+	if (typeof color2 == 'undefined'){
+		color2 = color;
+	}
+	if (textStr[0] == '>') color = '#789922';
 	
 	var lineDiv = document.createElement('div');
 	lineDiv.className = 'chatLine';
 	
 	var nameSpan = document.createElement('span');
-	nameSpan.className = 'userName';
+	nameSpan.style.color = color2;
 	$(nameSpan).text(nameStr + ":");
 	
 	var textSpan = document.createElement('span');
 	textSpan.className = 'userText';
 	textSpan.style.color = color;
+	textSpan.style.marginLeft = "4px";
 	$(textSpan).text(textStr);
 	
 	lineDiv.appendChild(nameSpan);
 	lineDiv.appendChild(textSpan);
 	return lineDiv;
 }
-function requestUpdate(){
+function requestUpdate(msgCommand){
 	//** Update only if necessary
 	timeObj = new Date();
+	if (typeof msgCommand == undefined){
+		msgCommand = "UPDATE";
+	}
 	if (timeObj.getTime() - updateWait > lastUpdate){
-		jQuery.ajax( cgiUrl + "chatupdate.cgi", {"data": sesKey + DLM + lastUpdate, "type": "POST"} ).done(onChatUpdate);
+		jQuery.ajax( cgiUrl + "chatupdate.cgi", {"data": sesKey + DLM + msgCommand, "type": "POST"} ).done(onChatUpdate);
 		if (elemExists("#msgBox")){
 			setTimeout(requestUpdate, updateWait);
 			return;
@@ -572,7 +585,7 @@ function requestUpdate(){
 }
 function sendChatMessage(msg){
 	//** Update only if necessary
-	jQuery.ajax( cgiUrl + "chatsend.cgi", {"data": sesKey + DLM + msg + DLM + lastUpdate, "type": "POST"} ).done(onChatUpdate);
+	jQuery.ajax( cgiUrl + "chatsend.cgi", {"data": sesKey + DLM + msg, "type": "POST"} ).done(onChatUpdate);
 }
 
 

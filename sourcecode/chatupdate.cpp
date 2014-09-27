@@ -11,7 +11,25 @@
 using namespace std;
 
 const int pd_SKEY = 0,
-		  pd_TIMESTAMP = 1;
+		  pd_COMMAND = 1;
+const string COMMAND_START = "START",
+			 COMMAND_UPDATE = "UP";
+			 
+int updateSessionTime(){
+	int dbResult;
+	
+	//** Update session data with new time
+	queryStr = "UPDATE Sessions SET UpdateTime = ? WHERE UserID = ?";
+	db.prepare(queryStr);
+	db.bind(1, currentTime);
+	db.bind(2, userID);
+	dbResult = db.runPrepared();
+	if (dbResult != DB_SUCCESS) {
+		cout << "ERROR" << DLM << "Failed to update chat time [" << dbResult << "]" << endl;
+		return 0;
+	}
+	return 
+}
 
 int main(int argc, char* argv[])
 {
@@ -21,8 +39,12 @@ int main(int argc, char* argv[])
 		   sendStr = "",
 		   tmpName,
 		   tmpMessage,
-		   tmpColor;
-	int dbResult = 0;
+		   tmpColor,
+		   lastUpdate,
+		   userID,
+		   strCommand = COMMAND_UPDATE;
+	int dbResult = 0,
+		iUpdateTime = 0;
 	time_t currentTime = time(0);
 	long int updateTime = 0;
 	sqltWrap db;
@@ -33,21 +55,11 @@ int main(int argc, char* argv[])
 	//** Split input into vector
 	tokenizeStr(postText, DLM, userData);
 	
-	//** Error checking
-	if (!is_number(userData[pd_TIMESTAMP])){
-		cout << "ERROR" << DLM << "Invalid update time" << endl;
-		return 0;
-	}
-	
-	//** Convert time
-	updateTime = strtol(userData[pd_TIMESTAMP].c_str(), NULL, 10);
-	toString(postStr, updateTime);
-	
 	//** Get messages from database
 	db.open(DIR_DB);
 	
 	//** Confirm logged in
-	dbResult = checkSession(db, userData[pd_SKEY].c_str()) != DB_SUCCESS;
+	dbResult = checkSession(db, userData[pd_SKEY].c_str(), ", UpdateTime") != DB_SUCCESS;
 	if (dbResult != DB_SUCCESS){
 		cout << "ERROR" << DLM << "Failed to check session id [" << dbResult << "]" << endl;
 		return 0;
@@ -56,11 +68,34 @@ int main(int argc, char* argv[])
 		cout << "ERROR" << DLM << "Not logged in.";
 		return 0;
 	}
+	userID = db[0][0];
+	lastUpdate = db[0][2];
+	iUpdateTime = atoi(lastUpdate.c_str());
+	
+	//** Check for commands
+	if (userData.size() > 1){
+		if (userData[pd_COMMAND] == COMMAND_START){
+			strCommand = COMMAND_START;
+		}
+	}
+	
+	//** Update session data with new time
+	queryStr = "UPDATE Sessions SET UpdateTime = ? WHERE UserID = ?";
+	db.prepare(queryStr);
+	db.bind(1, currentTime);
+	db.bind(2, userID);
+	if (db.runPrepared() != DB_SUCCESS) {
+		cout << "ERROR" << DLM << "Failed to update chat time [" << dbResult << "]" << endl;
+		return 0;
+	};
 	
 	//** Get messages from database
-	queryStr = "SELECT Username, Msg, Color FROM HubMessages WHERE CreateTime > ? ORDER BY CreateTime ASC";
+	//** Limiting the max time eliminates the chance of duplicates when...
+	//**	a message is posted in the ~8ms it can take to run this script.
+	queryStr = "SELECT Username, Msg, Color FROM HubMessages WHERE CreateTime >= ? AND CreateTime < ? ORDER BY CreateTime ASC";
 	db.prepare(queryStr);
-	db.bind(1, updateTime);
+	db.bind(1, lastUpdate);
+	db.bind(2, currentTime);
 	
 	//** Run command and send output
 	if (db.runPrepared() == DB_SUCCESS) {
