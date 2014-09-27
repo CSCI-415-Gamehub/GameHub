@@ -568,7 +568,7 @@ function createChatLineDiv(nameStr, textStr, color){
 function requestUpdate(msgCommand){
 	//** Update only if necessary
 	timeObj = new Date();
-	if (typeof msgCommand == undefined){
+	if (typeof msgCommand == "undefined"){
 		msgCommand = "UPDATE";
 	}
 	if (timeObj.getTime() - updateWait > lastUpdate){
