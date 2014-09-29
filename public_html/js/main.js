@@ -137,6 +137,9 @@ function onHeaderLoad(){
 	if (elemExists("#btnAdmin")){
 		$("#btnAdmin").click(onAdminClick);
 	}
+	if (elemExists("#btnGames")){
+		$("#btnGames").click(onGamesClick);
+	}
 	if (elemExists("#btnDeveloper") && UserLevel >= 100){
 		$("#btnDeveloper").click(onDeveloperClick);
 		$("#btnDeveloper").show();
@@ -402,6 +405,14 @@ function onAdminLoad(){
 function onAdminClick(){
 	$("#innerBody").fadeOut(600, function(){$("#innerBody").load("admin.html", "", function(){
 		onAdminLoad();
+		$("#innerBody").fadeIn(400);
+	})});
+}
+function onGamesLoad(){
+}
+function onGamesClick(){
+	$("#innerBody").fadeOut(600, function(){$("#innerBody").load("games.html", "", function(){
+		onGamesLoad();
 		$("#innerBody").fadeIn(400);
 	})});
 }
