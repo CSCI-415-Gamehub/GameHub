@@ -111,11 +111,12 @@ a
 .upload
 {
 	background-color: #262626;
-	padding: 35px 90px 30px 90px;
+	padding: 35px 60px 30px 60px;
 	text-align:left;
 	border:2px solid #fdc163;
 	border-radius:20px;
 	margin-top:40px;
+	width: 50%;
 }
 
 .ibox
