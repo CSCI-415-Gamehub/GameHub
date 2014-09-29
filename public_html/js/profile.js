@@ -1,7 +1,7 @@
 //** Editted by Zach Shroeder
 
 function profileHideAll(){
-	$("#statsdiv").hide();
+	$("#homediv").hide();
 	$("#achievementsdiv").hide();
 	$("#inboxdiv").hide();
 	$("#searchdiv").hide();
@@ -11,9 +11,9 @@ function profileHideAll(){
 	$("#editdiv").hide();
 }
 function setProfileButtons(){
-	$("#stats").click(function(){
+	$("#home").click(function(){
 		profileHideAll();
-		$("#statsdiv").show();
+		$("#homediv").show();
 	});
 	$("#achievements").click(function(){
 		profileHideAll();
