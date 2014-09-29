@@ -13,6 +13,10 @@ using namespace std;
 
 const int pd_SKEY = 0,
 		  pd_COMMAND = 1;
+const int pd_NEWTIMEOUT = 2;
+const int pd_NEWLEVEL = 2,
+		  pd_TARGETUSER = 3;
+const int pd_DELUSER = 3;
 		  
 const string COMMAND_USERS = "USERS",					//Get list of users +(optional: name)
 			COMMAND_TIMEOUT = "TIMEOUT",				//Set new global timeout +(new value)
@@ -21,8 +25,178 @@ const string COMMAND_USERS = "USERS",					//Get list of users +(optional: name)
 			COMMAND_BANLIST = "BANLIST",				//Get list of banned or muted users
 			COMMAND_BANUSER = "SETBAN",					//Set user ban level +(user id)
 			COMMAND_MUTEUSER = "SETMUTE",				//Set user mute level +(user id)
-			COMMAND_GAMEDELETE = "GAMEDELETE",			//Remove users game +(game id)
-			COMMAND_USERDELETE = "USERDELETE";			//Remove user's account +(user id)
+			COMMAND_USERDELETE = "USERDELETE",			//Remove user's account +(user id)
+			COMMAND_LOG = "LOG";						//Get list of recent changes
+			
+int adminSendUserList(sqltWrap &db){
+	cout << COMMAND_USERS << endl;
+	return 0;
+}
+
+int adminSetTimeout(sqltWrap &db, vector<string> &userData, string &userID){
+	//** Check data size
+	if (userData.size() < 3){
+		cout << "ERROR" << "Invalid command data." << endl;
+		return 0;
+	}
+	
+	//** Record action
+	logMessage(db, userID, "User " + userID + " set global timeout to " + userData[pd_NEWTIMEOUT]);
+	
+	cout << COMMAND_TIMEOUT << endl;
+	return 0;
+}
+
+int adminSetUserLevel(sqltWrap &db, vector<string> &userData, string &userID){
+	String queryStr = "UPDATE HubUsers SET UserLevel = ? WHERE UserID = ?",
+			tmpStr;
+	int dbResult = 0,
+		newLevel = 0,
+		targetID = 0;
+	
+	//** Check data size
+	if (userData.size() < 4){
+		cout << "ERROR" << DLM << "Invalid command data." << endl;
+		return 0;
+	}
+	
+	//** Get new mute level
+	tmpStr = userData[pd_NEWLEVEL];
+	newLevel = atoi(tmpStr.c_str(), void, 10);
+	
+	cout << COMMAND_USERLEVEL << endl;
+	return 0;
+}
+
+int adminSendRegList(sqltWrap &db){
+	//** We don't have a table for registration requests
+	cout << COMMAND_REGLIST << endl;
+	return 0;
+}
+
+int adminSendBanList(sqltWrap &db){
+	string queryStr = "SELECT UserID, Username, UserLevel FROM HubUsers WHERE BanLevel > 0 OR MuteLevel > 0";
+	cout << COMMAND_BANLIST << endl;
+	return 0;
+}
+
+int adminBanUser(sqltWrap &db, vector<string> &userData, string userID){
+	String queryStr = "UPDATE HubUsers SET BanLevel = ? WHERE UserID = ?",
+			tmpStr;
+	int dbResult = 0,
+		newLevel = 0,
+		targetID = 0;
+	
+	//** Check data size
+	if (userData.size() < 4){
+		cout << "ERROR" << DLM << "Invalid command data." << endl;
+		return 0;
+	}
+	
+	//** Get new mute level
+	tmpStr = userData[pd_NEWLEVEL];
+	newLevel = atoi(tmpStr.c_str(), void, 10);
+	
+	//** Get user id
+	if (userData[pd_TARGETUSER] == userID){
+		cout << "ERROR" << "You cannot ban yourself." << endl;
+		return 0;
+	}
+	
+	//** Record action
+	logMessage(db, userID, "User " + userID + " set user " + userData[pd_TARGETUSER] + "'s ban level to " + userData[pd_NEWLEVEL]);
+	
+	//** Run query
+	db.prepare(queryStr);
+	db.bind(1, newLevel);
+	db.bind(2, targetID);
+	dbResult = db.runPrepared();
+	if (dbResult != DB_SUCCESS){
+		cout << "ERROR" << DLM << "Failed to run command [" << dbResult << "]" << endl;
+		return 0;
+	}
+	
+	cout << COMMAND_BANUSER << endl;
+	return 0;
+}
+
+int adminMuteUser(sqltWrap &db, vector<string> &userData, string userID){ //** TODO: Error checking
+	String queryStr = "UPDATE HubUsers SET MuteLevel = ? WHERE UserID = ?",
+			tmpStr;
+	int dbResult = 0,
+		newLevel = 0,
+		targetID = 0;
+	
+	//** Check data size
+	if (userData.size() < 4){
+		cout << "ERROR" << DLM << "Invalid command data." << endl;
+		return 0;
+	}
+	
+	//** Get new mute level
+	tmpStr = userData[pd_NEWLEVEL];
+	newLevel = atoi(tmpStr.c_str(), void, 10);
+	
+	//** Get user id
+	if (userData[pd_TARGETUSER] == userID){
+		cout << "ERROR" << "You cannot mute yourself." << endl;
+		return 0;
+	}
+	
+	//** Record action
+	logMessage(db, userID, "User " + userID + " set user " + userData[pd_TARGETUSER] + "'s mute level to " + userData[pd_NEWLEVEL]);
+	
+	//** Run query
+	db.prepare(queryStr);
+	db.bind(1, newLevel);
+	db.bind(2, targetID);
+	dbResult = db.runPrepared();
+	if (dbResult != DB_SUCCESS){
+		cout << "ERROR" << DLM << "Failed to run command [" << dbResult << "]" << endl;
+		return 0;
+	}
+	
+	cout << COMMAND_MUTEUSER << endl;
+	return 0;
+}
+
+int adminDeleteUser(sqltWrap &db, vector<string> &userData, string &userID){
+	//** Check data size
+	if (userData.size() < 3){
+		cout << "ERROR" << "Invalid command data." << endl;
+		return 0;
+	}
+	
+	//** This one is gonna take some work
+	//**	should we also delete all the games?
+	//**	... and everything else?
+	
+	//** Record action
+	logMessage(db, userID, "User " + userID + " deleted user " + userData[pd_DELUSER]);
+	
+	cout << COMMAND_USERDELETE << endl;
+	return 0;
+}
+
+int adminSendLog(sqltWrap &db){
+	String queryStr = "SELECT * FROM AdminLog LIMIT 100",
+		   sendStr = "";
+	int dbResult = 0;
+	
+	//** Run query
+	db.prepare(queryStr);
+	dbResult = db.runPrepared();
+	if (dbResult != DB_SUCCESS){
+		cout << "ERROR" << DLM << "Failed to retrieve log [" << dbResult << "]" << endl;
+		return 0;
+	}
+	while (int i=0; i<db.numRows();i++){
+		sendStr += "";
+	}
+		
+	cout << COMMAND_LOG << DLM << sendStr << endl;
+	return 0;
+}
 
 int main(int argc, char* argv[])
 {
@@ -66,43 +240,50 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 	userID = db[0][0];
+	userLevel = atol(db[0][1].getData().c_str());
+	
+	//** Prevent non-admin access
+	if (userLevel < ADMIN_PANEL_LEVEL){
+		cout << "ERROR" << DLM << "Invalid access level." << endl;
+		return 0;
+	}
 	
 	//** Get profile action
 	if (userData[pd_COMMAND] == COMMAND_USERS){
 		//** Get list of all users
-		cout << COMMAND_USERS << endl;
+		adminSendUserList(db);
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_TIMEOUT){
 		//** Set global system timeout
-		cout << COMMAND_TIMEOUT << endl;
+		adminSetTimeout(db, userData, userID);
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_USERLEVEL){
 		//** Set users access level
-		cout << COMMAND_USERLEVEL << endl;
+		adminSetUserLevel(db, userData, userID);
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_REGLIST){
 		//** Get registration request list
-		cout << COMMAND_REGLIST << endl;
+		adminSendRegList(db);
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_BANLIST){
 		//** Get list of banned and muted users
-		cout << COMMAND_BANLIST << endl;
+		adminSendBanList(db);
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_BANUSER){
 		//** Set users ban level
-		cout << COMMAND_BANUSER << endl;
+		adminBanUser(db, userData, userID);
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_MUTEUSER){
 		//** Set users mute level
-		cout << COMMAND_MUTEUSER << endl;
-		return 0;
-	} else if (userData[pd_COMMAND] == COMMAND_GAMEDELETE){
-		//** Delete a game
-		cout << COMMAND_GAMEDELETE << endl;
+		adminMuteUser(db, userData, userID);
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_USERDELETE){
 		//** Delete a user
-		cout << COMMAND_USERDELETE << endl;
+		adminDeleteUser(sqltWrap &db, vector<string> &userData, userID);
+		return 0;
+	} else if (userData[pd_COMMAND] == COMMAND_LOG){
+		//** Get the log
+		adminSendLog(sqltWrap &db);
 		return 0;
 	}
 	

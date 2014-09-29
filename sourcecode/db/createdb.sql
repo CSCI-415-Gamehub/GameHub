@@ -10,6 +10,8 @@ RegistrationCode INTEGER,
 RegistrationID INTEGER,
 InviteID VARCHAR (20),
 UserLevel VARCHAR (20),
+BanLevel INTEGER,
+MuteLevel INTEGER,
 Color VARCHAR (6),
 CreateTime DATETIME DEFAULT strftime('%s', 'now') NOT NULL
 );

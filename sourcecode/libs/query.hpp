@@ -81,4 +81,18 @@ bool setRegKey(sqltWrap &db, const char *skey, const char *userID){
 	return true;
 }
 
+int logMessage(sqltWrap &db, string userID, string Message){
+	string queryStr = "INSERT INTO AdminLog (UserID, LogText) VALUES (?, ?)";
+	int dbResult;
+	
+	db.prepare(queryStr);
+	db.bind(1, userID);
+	db.bind(2, Message);
+	dbResult = db.runPrepared();
+	if (dbResult != DB_SUCCESS) {
+		cout << "ERROR" << DLM << "Failed to record activity." << endl;
+	}
+	return dbResult;
+}
+
 #endif /* QUERY_HPP_ */

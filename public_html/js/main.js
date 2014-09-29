@@ -25,7 +25,8 @@ var MAIN_GAMELIST = "GAMES",				//Get list of games +(optional: sort by)
 	MAIN_GAMEUPDATE = "UPDATE",				//Get status of game session +(game session id)
 	MAIN_CHANGEUSER = "CHANGEUSER",			//Poster sets position +(new user position)
 	MAIN_STARTGAME = "START",				//Sent when everything is ready so the server knows to delete the session
-	MAIN_JOIN = "JOIN";						//Join game session +(game id)
+	MAIN_JOIN = "JOIN",						//Join game session +(game id)
+	MAIN_REGREQUEST = "REGREQUEST";			//Send a registration request +(fname, lname, email)
 	
 var PROFILE_MYPROFILE = "SHOWME",			//Get info for user's profile
 	PROFILE_OTHERPROFILE = "SHOWOTHER",		//Get info for someone elses profile +(profile user id)
@@ -41,13 +42,13 @@ var ADMIN_USERS = "USERS",					//Get list of users +(optional: name)
 	ADMIN_BANLIST = "BANLIST",				//Get list of banned or muted users
 	ADMIN_BANUSER = "SETBAN",				//Set user ban level +(user id)
 	ADMIN_MUTEUSER = "SETMUTE",				//Set user mute level +(user id)
-	ADMIN_GAMEDELETE = "GAMEDELETE",		//Remove users game +(game id)
-	ADMIN_USERDELETE = "USERDELETE";		//Remove user's account +(user id)
+	ADMIN_USERDELETE = "USERDELETE",		//Remove user's account +(user id)
+	ADMIN_LOG = "LOG"						//Get list of recent commands
 	
 var GAMES_MYGAME = "MYGAMES",				//Get list of users games
 	GAMES_ADDGAME = "ADDGAME",				//Add a new game +(GameName, Description, URL, MinPlayers, MaxPlayers)
 	GAMES_GAMES = "GAMES",					//Get a list of top 15 games. +(sorting: (empty), "RATING", "TIME", "NAME")
-	GAMES_REMOVE = "REMOVE";					//Drop game from table +(GameId)
+	GAMES_REMOVE = "REMOVE";				//Drop game from table +(GameId)
 
 //** Commands that the client receives sometimes instead of the above
 var OTHER_TIMEOUT = "TIMEOUT",				//If the user's session timed out this is the only command they get
