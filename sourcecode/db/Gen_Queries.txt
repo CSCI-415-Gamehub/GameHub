@@ -1,0 +1,209 @@
+--login
+SELECT Username, Password, skey FROM HubUsers WHERE Username = ? AND Password = ?;
+
+--delete account/player
+DELETE FROM <tablename> WHERE Username = ?;
+
+--insert table for users poster/player level
+INSERT INTO HubUsersPosters
+(
+	FirstName,
+	LastName,
+	Username, 
+	Password,
+	PasswordSalt,
+	Email, 
+	RegistrationCode,
+	RegistrationID,
+	InviteID,
+	UserLevel,
+) 
+VALUES
+(
+	?,
+	?,
+	?, 
+	?,
+	?,
+	?,
+	?,
+	?, 
+	?,
+	?
+);
+--For the insertion of the values, the columns that are in there are
+--designated to be for the variables that were inputted from the html
+--page (i.e. the ? marks). 
+
+--Insert into HubMessages
+INSERT INTO HubMessages
+(
+	Username,
+	Msg,
+	GameField,
+	Color
+) 
+VALUES
+(
+	?,
+	?,
+	?, 
+	?
+);
+--Insert into Games Tables
+INSERT INTO Games
+(
+	GameName,
+	GameAddress,
+	URL,
+	TimesPlayed,
+	Ratings
+)
+VALUES
+(
+	?,
+	?,
+	?,
+	?,
+	?
+);
+
+--Insert into Games Tables
+INSERT INTO Games
+(
+	GameID,
+	SessionID,
+	UserID
+)
+VALUES
+(
+	?,
+	?,
+	?
+);
+
+ --Delete Game
+ --The check, as in this case is for the url, can change,for example to use name instead of URL.
+DELETE FROM Games WHERE URL = ?;
+
+--8.2.2
+SELECT Username1, Username2, Username3, etc. FROM HubUsersPosters, HubUsersPlayers;
+
+--Chat Messages
+	--Selecting the messages from the field depending on the game.
+		SELECT Username, Msg FROM HubMessages WHERE GameField = ?
+	--Adding messages that are sent in the GameField
+		INSERT INTO HubMessages (Username, Msg, GameField) values (?,?,?);
+
+--Initiate a Game instance.
+--Not Sure if this will work or not, Kind of just theoretical.
+--May have to do a case statement.
+
+CREATE FUNCTION PlayersNeeded ( ReqPlayers INT )
+RETURNS varchar(8)
+
+BEGIN
+
+   DECLARE ReqPlayers varchar(8);
+
+   IF ReqPlayers = 2 THEN
+		SELECT Username1, Username2, Username3, etc. FROM HubUsersPosters, HubUsersPlayers;
+	
+	ELSEIF ReqPlayers = 3 THEN
+      SELECT Username1, Username2, Username3, etc. FROM HubUsersPosters, HubUsersPlayers;
+      
+	ELSEIF ReqPlayers = 4 THEN
+      SELECT Username1, Username2, Username3, etc. FROM HubUsersPosters, HubUsersPlayers;
+      
+	ELSEIF ReqPlayers = 5 THEN
+      SELECT Username1, Username2, Username3, etc. FROM HubUsersPosters, HubUsersPlayers;
+        
+    ELSEIF ReqPlayers = 6 THEN
+      SELECT Username1, Username2, Username3, etc. FROM HubUsersPosters, HubUsersPlayers;
+      
+   ELSE
+      PRINT 'There are not enough players.';
+
+   END IF;
+
+RETURN ReqPlayers;
+END; 
+
+--Get the username for the person who initiated the game.
+	SELECT Username FROM HubUsersPlayers, HubUsersPosters WHERE Username = ?
+--Possible Message
+--'Person who initiated this game is (SELECT Username FROM HubUsersPlayers, HubUsersPosters WHERE Username = ?)'
+	
+	
+--Update the Time field for time outs
+--Should update the user profile to the current time when they make an action.
+UPDATE HubUsers SET UpdateTime=NOW() WHERE UserID=?;
+
+--insert into recently played games table
+INSERT INTO Games
+(
+	GameID,
+	UserID 
+)
+VALUES
+(
+	?,
+	?
+);
+
+--Insert into GameSessions Tables
+INSERT INTO GameSessions
+(
+    GameID,
+    SessionID,
+    UserID, 
+    Password
+)
+VALUES
+(
+    ?,
+    ?,
+    ?,
+    ?
+);
+
+--Insert into Settings Table
+INSERT INTO Settings
+(
+	ID,
+	Key,
+	Value, 
+	Color
+)
+VALUES
+(
+	?,
+	?,
+	?,
+	?
+);
+
+--Insert into RegReuests Table
+INSERT INTO RegRequests
+(
+	FirstName,
+	LastName,
+	Email
+)
+VALUES
+(
+	?,
+	?,
+	?
+);
+
+--Select the games and put them in order. Alphabetical ASC
+SELECT * from Games ORDER BY GameName;
+
+--Select the games and sort them by recently played games
+SELECT * from Games ORDER BY RecentlyPlayed ASC;
+
+--Select the games with the highest rating listed first. This may or may not work.
+SELECT * from Games ORDER BY Ratings ASC;
+
+
