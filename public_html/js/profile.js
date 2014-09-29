@@ -41,6 +41,6 @@ function setProfileButtons(){
 	});
 	$("#edit").click(function(){
 		profileHideAll();
-		$("#editsdiv").show();
+		$("#editdiv").show();
 	});
 }
