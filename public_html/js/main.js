@@ -401,6 +401,12 @@ function onMainClick(){
 	})});
 }
 function onAdminLoad(){
+  		$("#GameBrowse").hide();
+  		$("#ModGame").hide();
+  		$("#UserManage").hide();
+  		$("#Timeout").hide();
+  		$("#RegRequests").hide();
+  		$("#History").hide();
 }
 function onAdminClick(){
 	$("#innerBody").fadeOut(600, function(){$("#innerBody").load("admin.html", "", function(){
