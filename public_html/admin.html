@@ -24,7 +24,7 @@
 </head>
 
 <body>
-    <div class="standard">
+<div class="standard">
         <div>
             <!--Possible div to center all the fields in the Standard Div -->
 
@@ -32,17 +32,18 @@
 
             <h4>Game Management:</h4>
 
-            <div>
+            <div id="GameBrowse">
                 <input list="games" name="gamebrowser">
-                <!--!Idea, not sure if this will work!to search for games -->
+                <!--Games will be listed here -->
                  <datalist id="games"></datalist>
             </div>
-       
-    </div><button id="DeleteGame" onclick="deleteGame()"  type="button">Delete Game</button> <!--Deletes Selected Game from Hub -->
+    	</div>
+    	
+    <button id="DeleteGame" onclick="deleteGame()"  type="button">Delete Game</button> <!--Deletes Selected Game from Hub -->
 
     <h4>Modify Game:</h4>Game Name<br>
 
-    <form>
+    <div id="ModGame">
         <input id="GameName" size="18" type="text"><br>
         Game URL<br>
         <input id="GameURL" size="18" type="url"><br>
@@ -53,11 +54,11 @@
         Max Users<br>
         <input id="MaxUsers" size="2" type="text"><br>
         <button id="ModifyGame" onclick="" type="button">Modify Game</button><br>
-    </form>
+    </div><!--End ModGame Div-->
 
     <h4>User Management:</h4>
 
-    <div style="color:white; background-color: #262626; margin: 0px 10px 10px 10px; padding: 15px; border-radius:20px; width:auto; border: 2px solid #fdc163; height: 200px; overflow: scroll;">
+    <div id="UserManage" style="color:white; background-color: #262626; margin: 0px 10px 10px 10px; padding: 15px; border-radius:20px; width:auto; border: 2px solid #fdc163; height: 200px; overflow: scroll;">
     <table border="1" style=" border-collapse: collapse; border-color: #fdc163;" width="700">
             <tr>
                 <th>
@@ -123,7 +124,8 @@
 
                     <td>Magee</td>
 
-                    <td><select>
+                    <td>
+                    <select>
                         <option disabled selected>
                             Edit Status
                         </option>
@@ -139,7 +141,8 @@
                         <option value="banned">
                             Banned
                         </option>
-                    </select></td>
+                    </select>
+                    </td>
                 
 
                     <td><button onclick="removeFun()">Remove</button></td>
@@ -226,7 +229,7 @@
                     </select></td>
 
                     <td><button onclick="removeFun()">Remove</button></td>
-                      <td>
+                    <td>
                      <select>
                    	 <option disabled selected>
                             Mute Status
@@ -267,7 +270,7 @@
 
                     <td><button onclick="removeFun()">Remove</button></td>
                     
-                      <td>
+                    <td>
                      <select>
                    	 <option disabled selected>
                             Mute Status
@@ -348,7 +351,7 @@
 
                     <td><button onclick="removeFun()">Remove</button></td>
                     
-                      <td>
+                    <td>
                      <select>
                    	 <option disabled selected>
                             Mute Status
@@ -388,7 +391,7 @@
                     </select></td>
 
                     <td><button onclick="removeFun()">Remove</button></td>
-                      <td>
+                    <td>
                      <select>
                    	 <option disabled selected>
                             Mute Status
@@ -428,7 +431,7 @@
                     </select></td>
 
                     <td><button onclick="removeFun()">Remove</button></td>
-                      <td>
+                    <td>
                      <select>
                    	 <option disabled selected>
                             Mute Status
@@ -445,37 +448,41 @@
                 </tr>
             </tbody>
         </table>
-        </div><br>
-
-        <h4>Timeout Management:</h4>
-         (Max 30 Minutes)<br/>
-        <input max="30" min="0" onchange="sliderChange(this.value)" step="1" type="range" value="15">
-        <!--Slider moves one at a time, max is 30-->
-         <span id="sliderStatus">30</span><br>
-        <input type="submit"><br>
+        </div>
+        <!--End UserManage Div-->
         <br>
 
-    <h4>Registration Requests:</h4>
+		<div id="Timeout">
+        	<h4>Timeout Management:</h4>
+         		(Max 30 Minutes)<br/>
+        		<input max="30" min="0" onchange="sliderChange(this.value)" step="1" type="range" value="15">
+        		<!--Slider moves one at a time, max is 30-->
+        		<span id="sliderStatus">30</span><br>
+        		<input type="submit"><br>
+        </div> <!--End Timeout Div-->
+        <br>
 
-    <table border="1" style="width:10%">
-        <tr>
-            <th>Email</th>
-        </tr>
-
-        <tr>
-            <td>student@morningside.edu</td>
-        </tr>
-
-        <tr>
-            <td>student@morningside.edu</td>
-        </tr>
-    </table>
+	<div id="RegRequests">
+    	<h4>Registration Requests:</h4>
+    		<table border="1" style="width:10%">
+        		<tr>
+            		<th>Email</th>
+        		</tr>
+        		<tr>
+            		<td>student@morningside.edu</td>
+        		</tr>
+        		<tr>
+            		<td>student@morningside.edu</td>
+        		</tr>
+    		</table><!--End RegRequestsTable-->
+    </div><!--End RegRequests Div-->
     
     <h4>History</h4>
     
-    <div id="history">
+    <div id="History">
     	John Smith changed Micheal Jackson's user status from player to banned.
-    </div>
- </div>
+    </div><!--End History Div-->
+ 
+ </div><!--End Standard Div-->
 </body>
 </html>
