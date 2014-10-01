@@ -405,7 +405,7 @@ function onMainClick(){
 }
 function onAdminLoad(){
   	//	$("#GameBrowse").hide();
-  		$("#ModGame").hide();
+  	//	$("#ModGame").hide();
   		$("#UserManage").hide();
   		$("#Timeout").hide();
   		$("#RegRequests").hide();
@@ -415,9 +415,8 @@ function onAdminLoad(){
 			
 			var htmlOptions = "";
 					
-			parseInt(pos1);
 				for(var i = 2; i <= data.length; i+= 5){
-							
+					htmlOptions += "<option>" + data[i+2] + "</option>";	
 				}
 			$("#games").html(htmlOptions);
 			
