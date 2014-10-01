@@ -340,6 +340,19 @@ function onRegisterError(err){
 	$("#regError").show();
 }
 
+//***************************************************//
+//*					ADMIN METHODS					*//
+//***************************************************//
+
+onAdminLoad();
+	$.ajax("cgi-bin/games.cgi", {data: sesKey + DLM + GAMES_GAMES, type: "POST", success: function(data){
+			data = splitData(data);
+			$("#innerBody").fadeIn(400);
+		}, error: function(data){
+			data = splitData(data);
+			$("#innerBody").fadeIn(400);
+		}});
+
 
 //***************************************************//
 //*					PAGE METHODS					*//
@@ -407,11 +420,17 @@ function onAdminLoad(){
   		$("#Timeout").hide();
   		$("#RegRequests").hide();
   		$("#History").hide();
+  		$.ajax("cgi-bin/games.cgi", {data: sesKey + DLM + GAMES_GAMES, type: "POST", success: function(data){
+			data = splitData(data);
+			$("#innerBody").fadeIn(400);
+		}, error: function(data){
+			data = splitData(data);
+			$("#innerBody").fadeIn(400);
+		}});
 }
 function onAdminClick(){
 	$("#innerBody").fadeOut(600, function(){$("#innerBody").load("admin.html", "", function(){
 		onAdminLoad();
-		$("#innerBody").fadeIn(400);
 	})});
 }
 function onGamesLoad(){
