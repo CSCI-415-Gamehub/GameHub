@@ -344,16 +344,6 @@ function onRegisterError(err){
 //*					ADMIN METHODS					*//
 //***************************************************//
 
-onAdminLoad();
-	$.ajax("cgi-bin/games.cgi", {data: sesKey + DLM + GAMES_GAMES, type: "POST", success: function(data){
-			data = splitData(data);
-			$("#innerBody").fadeIn(400);
-		}, error: function(data){
-			data = splitData(data);
-			$("#innerBody").fadeIn(400);
-		}});
-
-
 //***************************************************//
 //*					PAGE METHODS					*//
 //***************************************************//
