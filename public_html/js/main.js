@@ -404,7 +404,7 @@ function onMainClick(){
 	})});
 }
 function onAdminLoad(){
-  		$("#GameBrowse").hide();
+  	//	$("#GameBrowse").hide();
   		$("#ModGame").hide();
   		$("#UserManage").hide();
   		$("#Timeout").hide();
@@ -412,6 +412,16 @@ function onAdminLoad(){
   		$("#History").hide();
   		$.ajax("cgi-bin/games.cgi", {data: sesKey + DLM + GAMES_GAMES, type: "POST", success: function(data){
 			data = splitData(data);
+			
+			var htmlOptions = "";
+					
+			parseInt(pos1);
+				for(var i = 2; i <= data.length; i+= 5){
+							
+				}
+			$("#games").html(htmlOptions);
+			
+			
 			$("#innerBody").fadeIn(400);
 		}, error: function(data){
 			data = splitData(data);
