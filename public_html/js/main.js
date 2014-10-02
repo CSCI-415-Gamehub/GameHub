@@ -404,7 +404,7 @@ function onMainClick(){
 	})});
 }
 function onAdminLoad(){
-  	//	$("#GameBrowse").hide();
+  		$("#GameBrowse").hide();
   	//	$("#ModGame").hide();
   		$("#UserManage").hide();
   		$("#Timeout").hide();
@@ -414,11 +414,17 @@ function onAdminLoad(){
 			data = splitData(data);
 			
 			var htmlOptions = "";
+			var htmlOptionsGM = "";
 					
 				for(var i = 2; i <= data.length; i+= 5){
 					htmlOptions += "<option>" + data[i+2] + "</option>";	
 				}
 			$("#games").html(htmlOptions);
+			
+			for(var i = 2; i <= data.length; i+= 5){
+					htmlOptionsGM += "<option>" + data[i+2] + "</option>";	
+				}
+			$("#gamesManage").html(htmlOptionsGM);
 			
 			
 			$("#innerBody").fadeIn(400);
