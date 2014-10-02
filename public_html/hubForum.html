@@ -46,30 +46,18 @@
    Event Handlers
    ******************************/
 	
-   function forumHideAll()
-   {
-	$("#games").hide();
-	$("#hub").hide();
-	$("#misc").hide(); 
-   }
-   function setForumButtons()
-   {
-	$("#games").click(function()
+	window.onload = function()
 	{
-		forumHideAll();
-		$("#games").show();
-	});
-	$("#hub").click(function()
-	{
-		forumHideAll();
-		$("#hub").show();
-	});
-	$("#misc").click(function()
-	{
-		forumHideAll();
-		$("#misc").show();
-	});
-   }
+	//*** ONCLICK FOR SWITCHING SCREENS
+	document.getElementById("gamesTab").onclick = showGame;
+	document.getElementById("hubTab").onclick = showHub;
+	document.getElementById("miscTab").onclick = showMisc;
+	
+	//*** ONCLICK FOR CONTACTING SERVER
+	document.getElementById("gamePost").onclick = postGame;
+	document.getElementById("hubPost").onclick = postHub;
+	document.getElementById("miscPost").onclick = postMisc;
+	}
     
    /************************************************************************
    End of JavaScript - Body of HTML Document Follows
