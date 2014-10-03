@@ -7,12 +7,11 @@ Username VARCHAR (20) COLLATE NOCASE,
 Password VARCHAR (40),
 PasswordSalt VARCHAR (20),
 Email VARCHAR (30),
-RegistrationCode INTEGER,
+RegistrationCode VARCHAR(20),
 RegistrationID INTEGER,
-InviteID INTEGER,
-UserLevel VARCHAR (20),
-BanLevel INTEGER,
-MuteLevel INTEGER,
+UserLevel INTEGER DEFAULT 1,
+BanLevel INTEGER DEFAULT 0,
+MuteLevel INTEGER DEFAULT 0,
 Color VARCHAR (6),
 CreateTime DATETIME DEFAULT (strftime('%s', 'now')) NOT NULL
 );
@@ -43,6 +42,7 @@ CreateTime DATETIME DEFAULT (strftime('%s', 'now')) NOT NULL
 CREATE TABLE IF NOT EXISTS Sessions
 (
 SessionID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+SessionKey VARCHAR(20),
 UserID INTEGER,
 UserLevel INTEGER,
 UpdateTime DATETIME DEFAULT (strftime('%s', 'now')) NOT NULL,

@@ -372,14 +372,17 @@ function onMainLoad(){
 	
 	requestMainContent();
 	$.ajax("cgi-bin/games.cgi", {data: sesKey + DLM + GAMES_GAMES, type: "POST", success: function(data){
-			data = splitData(data);
-			$("#innerBody").fadeIn(400);
-		}, error: function(data){
-			data = splitData(data);
-			$("#innerBody").fadeIn(400);
-		}});
+		data = splitData(data);
+		$("#innerBody").fadeIn(400);
+	}, error: function(data){
+		data = splitData(data);
+		$("#innerBody").fadeIn(400);
+	}});
 }
 function requestMainContent(){
+	$.ajax("cgi-bin/games.cgi", {data: sesKey + DLM + GAMES_GAMES, type: "POST", success: onMainGameReceive, error: onMainGameReceive});
+}
+function onMainGameReceive(data){
 	var gList = document.getElementById("gameList");
 	var sList = document.getElementById("sessionList");
 	
