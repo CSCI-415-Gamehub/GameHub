@@ -406,9 +406,59 @@ function onMainClick(){
 		$("#innerBody").fadeIn(400);
 	})});
 }
+function onGameBrowseClick(){
+		$("#GameBrowse").show();
+  		$("#ModGame").hide();
+  		$("#UserManage").hide();
+  		$("#Timeout").hide();
+  		$("#RegRequests").hide();
+  		$("#History").hide();
+}
+function onGameModClick(){
+		$("#GameBrowse").hide();
+  		$("#ModGame").show();
+  		$("#UserManage").hide();
+  		$("#Timeout").hide();
+  		$("#RegRequests").hide();
+  		$("#History").hide();
+}
+function onUserManageClick(){
+		$("#GameBrowse").hide();
+  		$("#ModGame").hide();
+  		$("#UserManage").show();
+  		$("#Timeout").hide();
+  		$("#RegRequests").hide();
+  		$("#History").hide();
+}
+function onTimeoutClick(){
+		$("#GameBrowse").hide();
+  		$("#ModGame").hide();
+  		$("#UserManage").hide();
+  		$("#Timeout").show();
+  		$("#RegRequests").hide();
+  		$("#History").hide();
+}
+function onRegReqClick(){
+		$("#GameBrowse").hide();
+  		$("#ModGame").hide();
+  		$("#UserManage").hide();
+  		$("#Timeout").hide();
+  		$("#RegRequests").show();
+  		$("#History").hide();
+}
+function onHistoryClick(){
+		$("#GameBrowse").hide();
+  		$("#ModGame").hide();
+  		$("#UserManage").hide();
+  		$("#Timeout").hide();
+  		$("#RegRequests").hide();
+  		$("#History").show();
+}
+
+
 function onAdminLoad(){
   		$("#GameBrowse").hide();
-  	//	$("#ModGame").hide();
+  		$("#ModGame").hide();
   		$("#UserManage").hide();
   		$("#Timeout").hide();
   		$("#RegRequests").hide();
@@ -417,19 +467,13 @@ function onAdminLoad(){
 			data = splitData(data);
 			
 			var htmlOptions = "";
-			//var htmlOptionsGM = "";
 					
 				for(var i = 2; i <= data.length; i+= 5){
 					htmlOptions += "<option>" + data[i+2] + "</option>";	
 				}
 			$("#games").html(htmlOptions);
-			
-			//for(var i = 2; i <= data.length; i+= 5){
-			//		htmlOptionsGM += "<option>" + data[i+2] + "</option>";	
-			//	}
-			//$("#gamesManage").html(htmlOptionsGM);
-			
-			
+		
+		
 			$("#innerBody").fadeIn(400);
 		}, error: function(data){
 			data = splitData(data);
