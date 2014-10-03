@@ -406,6 +406,8 @@ function onMainClick(){
 		$("#innerBody").fadeIn(400);
 	})});
 }
+
+//Admin Hide button functionality
 function onGameBrowseClick(){
 		$("#GameBrowse").show();
   		$("#ModGame").hide();
@@ -485,6 +487,10 @@ function onAdminClick(){
 		onAdminLoad();
 	})});
 }
+function onRegRequest(){
+	$.ajax("cgi-bin/main.cgi","REGREQUEST" + "_|" + $("#fname") + "_|" + $("#lname") + "_|" + $("#emailRA"), success: function(data);
+}
+
 function onGamesLoad(){
 }
 function onGamesClick(){
