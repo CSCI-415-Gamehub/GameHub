@@ -79,3 +79,6 @@ UserID INTEGER,
 LogText VARCHAR(300),
 CreateTime DATETIME DEFAULT (strftime('%s', 'now')) NOT NULL
 );
+
+INSERT INTO HubUsers (Username, Password, PasswordSalt, UserLevel, RegistrationCode) VALUES ('Admin', 'n9/Ui6vcC+AgTwO/CEWuOlZTV3/GT9AGoOhXF1b+iJM=', 'BfTeolZ9EkjJfFafbdAQ', 3, 'hello');
+INSERT INTO Settings (KeyName, KeyValue) VALUES ('Timeout', 3600);
