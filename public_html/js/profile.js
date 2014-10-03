@@ -44,17 +44,3 @@ function setProfileButtons(){
 		$("#editdiv").show();
 	});
 }
-function messageCenterHideAll(){
-	$("#messagecenter").hide;
-	$("#messageSender").hide;
-}
-function messageSwitch(){
-	$("#sendMessages").click(function(){
-		messageCenterHideAll();
-		$("#messageSender").show;
-	});
-	$("#readMessages").click(function(){
-		messageCenterHideAll();
-		$("#messagecenter").show;
-	});
-}

@@ -81,31 +81,25 @@
 <!--inbox page -->
 
 	<div class = "hidden" id = "inboxdiv" style = "width: 1038px; float: left;">
-	</br>
-		<div align="center" style = "padding-left: 39%; margin-bottom: 20px">
-			<div align = "center" class = "ibox">
-				<button id = "readMessages" type = "button"> Inbox </button>
-				<div class = "divider"></div>
-				<button id = "sendMessages" type = "button"> Send Message </button>
-				</br>
+		</br>
+		<div align = "center"  id = "messagecenterdiv">
+		<h2>Welcome to the Message Center</h2>
+		</br>
+			<div id = "testmessage" class = "testmessage">
+				<span id = "sender" style = "padding-right:20px;">sender</span>
+				<span id = "message">message</span>
+			</div>
+			<div id = "testmessage" class = "testmessage">
+				<span id = "sender" style = "padding-right:20px;">Randy</span>
+				<span id = "message">Wow, the Game Hub looks excellent, keep up the good work!!</span>
 			</div>
 		</div>
 		</br>
 		</br>
 		</br>
 		</br>
-		<div align = "center"  id = "messagecenter" class = "unhidden">
-			<div id = "testmessage" class = "testmessage">
-				<span id = "sender" style = "padding-right:20px;">sender</span>
-				<span id = "message">message</span>
-			</div>
-			<div id = "testmessage" class = "testmessage">
-				<span id = "sender" style = "padding-right:20px;">sender</span>
-				<span id = "message">message</span>
-			</div>
-		</div>
-		<div align = "center" id = "messageSender" class = "hidden">
-			<div class="upload" style = "text-align: center;">
+		<div align = "center" id = "messageSenderdiv">
+			<div class="messagesToSend" style = "text-align: center;">
 				<h3 style = "text-align:center;">Send a message</h3>
 				</br>
 				Name of recipient: <input id = "recipient" type = "text" size = "18" />
