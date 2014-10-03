@@ -95,4 +95,18 @@ int logMessage(sqltWrap &db, string userID, string Message){
 	return dbResult;
 }
 
+string getPageSetting(sqltWrap &db, string &key){
+	string queryStr = "SELECT KeyValue FROM Settings WHERE KeyName = ?";
+	int dbResult;
+	
+	db.prepare(queryStr);
+	db.bind(1, key);
+	dbResult = db.runPrepared();
+	if (dbResult != DB_SUCCESS) {
+		cout << "ERROR" << DLM << "Failed to record activity." << endl;
+		return "";
+	}
+	return db[0][0];
+}
+
 #endif /* QUERY_HPP_ */

@@ -36,10 +36,18 @@ int mainSendSessionList(sqltWrap &db, string gameID, string orderBy){
 	
 }
 
+int mainRegRequest(sqltWrap &db, vector<string> &userData){
+	string queryStr = "INSERT INTO -- () VALUES ()";
+	int dbResult = 0;
+	
+	
+	return 0;
+}
+
 int main(int argc, char* argv[])
 {
 	string postText = retrievePost();
-	vector<string> postData;
+	vector<string> userData;
 	int dbResult = 0;
 	sqltWrap db;
 	
@@ -52,13 +60,13 @@ int main(int argc, char* argv[])
 	}
 
 	//** Split input into vector
-	tokenizeStr(postText, DLM, postData);
+	tokenizeStr(postText, DLM, userData);
 	
 	//** Connect to DB
 	db.open(DIR_DB);
 	
 	//** Confirm logged in
-	dbResult = checkSession(db, postData[pd_SKEY].c_str()) != DB_SUCCESS;
+	dbResult = checkSession(db, userData[pd_SKEY].c_str()) != DB_SUCCESS;
 	if (dbResult != DB_SUCCESS){
 		cout << "ERROR" << DLM << "Failed to check session id [" << dbResult << "]" << endl;
 		return 0;
@@ -69,25 +77,29 @@ int main(int argc, char* argv[])
 	}
 	
 	//** Handle commands
-	if (postData[pd_COMMAND] == COMMAND_SESSIONLIST){ //**TODO: Finish this
+	if (userData[pd_COMMAND] == COMMAND_SESSIONLIST){ //**TODO: Finish this
 		//** Send list of sessions for a game
 		cout << COMMAND_SESSIONLIST << endl;
 		return 0;
-	} else if (postData[pd_COMMAND] == COMMAND_GAMEUPDATE){
+	} else if (userData[pd_COMMAND] == COMMAND_GAMEUPDATE){
 		//** Send list of players in a game and ok message if all slots are taken
 		cout << COMMAND_GAMEUPDATE << endl;
 		return 0;
-	} else if (postData[pd_COMMAND] == COMMAND_CHANGEUSER){
+	} else if (userData[pd_COMMAND] == COMMAND_CHANGEUSER){
 		//** Change slot of player in game
 		cout << COMMAND_CHANGEUSER << endl;
 		return 0;
-	} else if (postData[pd_COMMAND] == COMMAND_STARTGAME){
+	} else if (userData[pd_COMMAND] == COMMAND_STARTGAME){
 		//** Initialize a game session
 		cout << COMMAND_STARTGAME << endl;
 		return 0;
-	} else if (postData[pd_COMMAND] == COMMAND_JOIN){
+	} else if (userData[pd_COMMAND] == COMMAND_JOIN){
 		//** Initialize a game session
 		cout << COMMAND_JOIN << endl;
+		return 0;
+	} else if (userData[pd_COMMAND] == COMMAND_REGREQUEST){
+		//** Add a registration request
+		cout << COMMAND_REGREQUEST << endl;
 		return 0;
 	}
 	

@@ -48,7 +48,7 @@ int adminSetTimeout(sqltWrap &db, vector<string> &userData, string &userID){
 }
 
 int adminSetUserLevel(sqltWrap &db, vector<string> &userData, string &userID){
-	String queryStr = "UPDATE HubUsers SET UserLevel = ? WHERE UserID = ?",
+	string queryStr = "UPDATE HubUsers SET UserLevel = ? WHERE UserID = ?",
 			tmpStr;
 	int dbResult = 0,
 		newLevel = 0,
@@ -62,7 +62,7 @@ int adminSetUserLevel(sqltWrap &db, vector<string> &userData, string &userID){
 	
 	//** Get new mute level
 	tmpStr = userData[pd_NEWLEVEL];
-	newLevel = atoi(tmpStr.c_str(), void, 10);
+	newLevel = strtol(tmpStr.c_str(), NULL, 10);
 	
 	cout << COMMAND_USERLEVEL << endl;
 	return 0;
@@ -81,7 +81,7 @@ int adminSendBanList(sqltWrap &db){
 }
 
 int adminBanUser(sqltWrap &db, vector<string> &userData, string userID){
-	String queryStr = "UPDATE HubUsers SET BanLevel = ? WHERE UserID = ?",
+	string queryStr = "UPDATE HubUsers SET BanLevel = ? WHERE UserID = ?",
 			tmpStr;
 	int dbResult = 0,
 		newLevel = 0,
@@ -95,7 +95,7 @@ int adminBanUser(sqltWrap &db, vector<string> &userData, string userID){
 	
 	//** Get new mute level
 	tmpStr = userData[pd_NEWLEVEL];
-	newLevel = atoi(tmpStr.c_str(), void, 10);
+	newLevel = strtol(tmpStr.c_str(), NULL, 10);
 	
 	//** Get user id
 	if (userData[pd_TARGETUSER] == userID){
@@ -121,7 +121,7 @@ int adminBanUser(sqltWrap &db, vector<string> &userData, string userID){
 }
 
 int adminMuteUser(sqltWrap &db, vector<string> &userData, string userID){ //** TODO: Error checking
-	String queryStr = "UPDATE HubUsers SET MuteLevel = ? WHERE UserID = ?",
+	string queryStr = "UPDATE HubUsers SET MuteLevel = ? WHERE UserID = ?",
 			tmpStr;
 	int dbResult = 0,
 		newLevel = 0,
@@ -135,7 +135,7 @@ int adminMuteUser(sqltWrap &db, vector<string> &userData, string userID){ //** T
 	
 	//** Get new mute level
 	tmpStr = userData[pd_NEWLEVEL];
-	newLevel = atoi(tmpStr.c_str(), void, 10);
+	newLevel = strtol(tmpStr.c_str(), NULL, 10);
 	
 	//** Get user id
 	if (userData[pd_TARGETUSER] == userID){
@@ -179,7 +179,7 @@ int adminDeleteUser(sqltWrap &db, vector<string> &userData, string &userID){
 }
 
 int adminSendLog(sqltWrap &db){
-	String queryStr = "SELECT * FROM AdminLog LIMIT 100",
+	string queryStr = "SELECT * FROM AdminLog LIMIT 100",
 		   sendStr = "";
 	int dbResult = 0;
 	
@@ -190,7 +190,7 @@ int adminSendLog(sqltWrap &db){
 		cout << "ERROR" << DLM << "Failed to retrieve log [" << dbResult << "]" << endl;
 		return 0;
 	}
-	while (int i=0; i<db.numRows();i++){
+	for (int i=0; i<db.numRows(); i++){
 		sendStr += "";
 	}
 		
@@ -279,11 +279,11 @@ int main(int argc, char* argv[])
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_USERDELETE){
 		//** Delete a user
-		adminDeleteUser(sqltWrap &db, vector<string> &userData, userID);
+		adminDeleteUser(db, userData, userID);
 		return 0;
 	} else if (userData[pd_COMMAND] == COMMAND_LOG){
 		//** Get the log
-		adminSendLog(sqltWrap &db);
+		adminSendLog(db);
 		return 0;
 	}
 	

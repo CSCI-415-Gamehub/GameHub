@@ -15,8 +15,10 @@ const int pd_SKEY = 0,
 const string COMMAND_START = "START",
 			 COMMAND_UPDATE = "UP";
 			 
-int updateSessionTime(){
+int updateSessionTime(time_t &currentTime, string &userID){
+	sqltWrap db;
 	int dbResult;
+	string queryStr;
 	
 	//** Update session data with new time
 	queryStr = "UPDATE Sessions SET UpdateTime = ? WHERE UserID = ?";
@@ -28,7 +30,7 @@ int updateSessionTime(){
 		cout << "ERROR" << DLM << "Failed to update chat time [" << dbResult << "]" << endl;
 		return 0;
 	}
-	return 
+	return 0;
 }
 
 int main(int argc, char* argv[])
