@@ -487,6 +487,7 @@ function onAdminClick(){
 		onAdminLoad();
 	})});
 }
+
 function onRegRequest(){
 	$.ajax("cgi-bin/main.cgi","REGREQUEST" + "_|" + $("#fname") + "_|" + $("#lname") + "_|" + $("#emailRA"), success: function(data);
 }
