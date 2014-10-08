@@ -1,11 +1,33 @@
 <!DOCTYPE html>
 <!--Editted by Zach Shroeder, Donald Franklin-->
 
+<script type="text/javascript" src="js/ajaxReq.js"></script> <!--allows ajax request for data to be passed to proper files-->
 <script type="text/javascript">
 	//** Force redirect if not logged in
 	if (typeof sesKey == 'undefined' || typeof cgiUrl == 'undefined'){
 		window.location = "index.html";
 	}
+/*******************************************************
+Global Variables
+********************************************************/
+var uid="",
+    requestedUid="",
+    requestedPassword="",
+    fName="",
+    requestedFName="",
+    lName="",
+    requestedLName="",
+    color="",
+    requestedColor="";
+/*******************************************************
+Event Handlers
+********************************************************/
+function usernameUpdate(){
+	requestedUsername = document.getElementById="changeUsernameInput";
+
+}
+
+
 </script>
 <div class = "profileBox">
 	<div class = "info-bios">
@@ -139,20 +161,14 @@
 <!--settings page -->
 
 	<div class = "hidden" id = "settingsdiv" style = "width: 1038px; float: left;">
-		settings div
-<<<<<<< Updated upstream
-=======
-		</br>
-		Change account settings: password, username, etc.
-		</br>
-		Change font color. 
-		</br>
-		Font Color: <span id="">
-		Username: <span id="profileName"></span> <button id="changeUsernameBtn" type="button">Change Username</button></br>
-		Password: <button id="changePasswordBtn" type="button">Change Password</button>
+		settings div</br>
+		Change account settings: password, username, etc.</br>
+		Username:<input id="changeUsernameInput" type="text"></input><button id="changeUsernameBtn" type="button" onclick="usernameUpdate">Change Username</button></br>
+		Password:<input id="changePasswordInput" type="text"></input><button id="changePasswordBtn" type="button" onclick="passwordUpdate">Change Password</button></br>
+		First Name:<input id="changeFNameInput" type="text"></input><button id="changeFNameBtn" type="button" onclick="fNameUpdate">Change First Name</button></br>
+		Last Name: <input id="changeLNameInput" type="text"></input><button id="changeLNameBtn" type="button" onclick="lNameUpdate">Change Last Name</button></br>
+		Font Color: <span id="color"></span><button id="changeColorBtn" type="button" onclick="colorUpdate">Change Color</button> </br> 
 
-
->>>>>>> Stashed changes
 	</div>
 
 <!--upload page -->
