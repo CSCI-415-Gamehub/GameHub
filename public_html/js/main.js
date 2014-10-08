@@ -406,9 +406,61 @@ function onMainClick(){
 		$("#innerBody").fadeIn(400);
 	})});
 }
+
+//Admin Hide button functionality
+function onGameBrowseClick(){
+		$("#GameBrowse").show();
+  		$("#ModGame").hide();
+  		$("#UserManage").hide();
+  		$("#Timeout").hide();
+  		$("#RegRequests").hide();
+  		$("#History").hide();
+}
+function onGameModClick(){
+		$("#GameBrowse").hide();
+  		$("#ModGame").show();
+  		$("#UserManage").hide();
+  		$("#Timeout").hide();
+  		$("#RegRequests").hide();
+  		$("#History").hide();
+}
+function onUserManageClick(){
+		$("#GameBrowse").hide();
+  		$("#ModGame").hide();
+  		$("#UserManage").show();
+  		$("#Timeout").hide();
+  		$("#RegRequests").hide();
+  		$("#History").hide();
+}
+function onTimeoutClick(){
+		$("#GameBrowse").hide();
+  		$("#ModGame").hide();
+  		$("#UserManage").hide();
+  		$("#Timeout").show();
+  		$("#RegRequests").hide();
+  		$("#History").hide();
+}
+function onRegReqClick(){
+		$("#GameBrowse").hide();
+  		$("#ModGame").hide();
+  		$("#UserManage").hide();
+  		$("#Timeout").hide();
+  		$("#RegRequests").show();
+  		$("#History").hide();
+}
+function onHistoryClick(){
+		$("#GameBrowse").hide();
+  		$("#ModGame").hide();
+  		$("#UserManage").hide();
+  		$("#Timeout").hide();
+  		$("#RegRequests").hide();
+  		$("#History").show();
+}
+
+
 function onAdminLoad(){
   		$("#GameBrowse").hide();
-  	//	$("#ModGame").hide();
+  		$("#ModGame").hide();
   		$("#UserManage").hide();
   		$("#Timeout").hide();
   		$("#RegRequests").hide();
@@ -417,19 +469,13 @@ function onAdminLoad(){
 			data = splitData(data);
 			
 			var htmlOptions = "";
-			//var htmlOptionsGM = "";
 					
 				for(var i = 2; i <= data.length; i+= 5){
 					htmlOptions += "<option>" + data[i+2] + "</option>";	
 				}
 			$("#games").html(htmlOptions);
-			
-			//for(var i = 2; i <= data.length; i+= 5){
-			//		htmlOptionsGM += "<option>" + data[i+2] + "</option>";	
-			//	}
-			//$("#gamesManage").html(htmlOptionsGM);
-			
-			
+		
+		
 			$("#innerBody").fadeIn(400);
 		}, error: function(data){
 			data = splitData(data);
@@ -441,6 +487,11 @@ function onAdminClick(){
 		onAdminLoad();
 	})});
 }
+
+function onRegRequest(){
+	$.ajax("cgi-bin/main.cgi","REGREQUEST" + "_|" + $("#fname") + "_|" + $("#lname") + "_|" + $("#emailRA"), success: function(data);
+}
+
 function onGamesLoad(){
 }
 function onGamesClick(){
@@ -471,6 +522,16 @@ function onProfileLoad(data){
 	
 	$("#profileName").text(UserName);
 	$("#profileLevel").text("-" + uLevelNames[UserLevel] + "-");
+/***********************************************************************
+/***********************************************************************
+/***********************************************************************
+/***********************************************************************
+	This is where I will add my JS functions to populate my span's
+	
+*************************************************************************
+*************************************************************************
+*************************************************************************
+*************************************************************************/
 	
 	//** Display ban labels
 	var banStatus = "";
