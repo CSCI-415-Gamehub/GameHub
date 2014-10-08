@@ -1,7 +1,9 @@
 /***********************************************************
 infoUpdate.cpp
 SUBMITTED BY: Martin
-CGI script to handle the updating of username, password, and color
+CGI script to handle the updating of username, password, font-color,
+first name, and last name. These changes are
+made from the profile page.
 ************************************************************/
 
 #include <iostream>
@@ -20,9 +22,9 @@ using namespace std;
 main
 main()
 
-Updates a players information from the settings on their
-profile page. User can update, username, password, and their
-font color preference.
+Update forusername, password, font-color,
+first name, and last name.
+These changes are made from the profile page.
 ************************************************************/
 
 const int pd_USERNAME = 0,
@@ -33,13 +35,19 @@ const int pd_USERNAME = 0,
 	  pd_REGCODE = 5;
 
 main()
-{ string uid,
-	 combinedPassword,
-	 convertedPassword,
+{ string uid, //current username
+    	 requestedUid, //tmp storage to change to new username
+	 combinedPassword, //current password before hash
+	 requestedPassword, //tmp storage to change to new password
+	 convertedPassword, //password after hash
 	 pwSalt,
+	 fontColor,
+	 requestedFontColor,
          email,
          fName,
+	 requestedFName,
          lName,
+	 requestedLName,
          desiredTimeout,
 	 postText = retrievePost(),
 	 query,
@@ -85,23 +93,6 @@ if (!( postData[pd_PASSWORD].length() > 6 || postData[pd_PASSWORD].length() < 40
 	cout << "ERROR" << DLM << "Password must be between 6 and 40.";
 	return 0;
 }
-if (!( postData[pd_FIRSTNAME].length() < 20 )){
-	cout << "ERROR" << DLM << "Firstname can be no more than 20 character.";
-	return 0;
-}
-if (!( postData[pd_LASTNAME].length() < 20 )){
-	cout << "ERROR" << DLM << "Firstname can be no more than 20 character.";
-	return 0;
-}
-if (!( is_alnum(postData[pd_FIRSTNAME]) )){
-	cout << "ERROR" << DLM << "Invalid First Name \"" + postData[pd_FIRSTNAME] + "\"";
-	return 0;
-}
-if (!( is_alnum(postData[pd_LASTNAME]) )){
-	cout << "ERROR" << DLM << "Invalid Last Name \"" + postData[pd_LASTNAME] + "\"";
-	return 0;
-}
-
 //** Convert username to uppercase for case insensitive matching
 string strConvert = postData[pd_PASSWORD],
 	   strResult = strConvert;
@@ -129,21 +120,19 @@ randStr(pwSalt, 20);
 combinedPassword = postData[pd_PASSWORD] + pwSalt;
 sha256Hash64(convertedPassword, combinedPassword);
 
-//** Add user to table
-query = "INSERT INTO HubUsers (Username, Password, PasswordSalt, FirstName, LastName, Email, RegistrationCode, RegistrationID, UserLevel, Color, MuteLevel, BanLevel) VALUES (?, ?, ?, ?, ?, ?, '', ?, 1, 'FFFFFF', 0, 0)";
+//** Updates users changes to table
+query = ("UPDATE HubUsers SET Username='%s',Password='%s',Color='%s' WHERE Username='%s';,requestedUid,requestedPassword,requestedColor,");
 db.prepare(query);
 db.bind(1, postData[pd_USERNAME]);
 db.bind(2, convertedPassword);
 db.bind(3, pwSalt);
-db.bind(4, postData[pd_FIRSTNAME]);
-db.bind(5, postData[pd_LASTNAME]);
-db.bind(6, postData[pd_EMAIL]);
-db.bind(7, inviteID);
 dbResult = db.runPrepared();
 if (dbResult != DB_SUCCESS) {
 	cout << "ERROR" << DLM << "Failed to run prepared query [" << dbResult << "] " << " \"" << query << "\"" << endl;
 	return 0;
 }
+SET ContactName='Alfred Schmidt', City='Hamburg'
+WHERE CustomerName='Alfreds Futterkiste'; 
 
 //** Randomize used registration key
 randStr(skey, 20);
